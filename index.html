@@ -29,7 +29,7 @@ if (document.layers) {
 
 <CENTER>
 
-<MARQUEE BGCOLOR="#000080" WIDTH="640" SCROLLAMOUNT="4" HEIGHT="26">
+<MARQUEE ID="mq" BGCOLOR="#000080" WIDTH="640" SCROLLAMOUNT="4" HEIGHT="26">
 <FONT COLOR="#FFFF00" SIZE="3"><B>&nbsp;*** ВІТАЄМО НА МОЇЙ ДОМАШНІЙ СТОРІНЦІ ***&nbsp;
 Amiga 1000 &middot; 1984 &middot; Dale Luck &amp; RJ Mical &middot; 512 KB RAM &middot;
 Один файл &mdash; від Netscape 4 до сьогодні &middot; НАТИСНІТЬ НА ШАРИК МИШКОЮ!!!&nbsp;</B></FONT>
@@ -74,7 +74,7 @@ FACE="Impact, Arial Black" SIZE="7" COLOR="#FFFFFF">!</FONT>
 
   <BR>
 
-  <TABLE BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="640" BGCOLOR="#000040">
+  <TABLE ID="t1" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="640" BGCOLOR="#000040">
   <TR ALIGN="CENTER">
     <TD><FONT SIZE="1" COLOR="#8080FF">РЕНДЕРЕР</FONT><BR>
         <FONT SIZE="2" COLOR="#00FF80" FACE="Courier New"><B><SPAN ID="rend">?</SPAN></B></FONT></TD>
@@ -89,7 +89,7 @@ FACE="Impact, Arial Black" SIZE="7" COLOR="#FFFFFF">!</FONT>
   </TR>
   </TABLE>
 
-  <TABLE BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="640" BGCOLOR="#000040">
+  <TABLE ID="t2" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="640" BGCOLOR="#000040">
   <TR ALIGN="CENTER">
     <TD><FONT SIZE="1" COLOR="#8080FF">СЦЕНА</FONT><BR>
         <SELECT ID="scn" onchange="setScene(this.value)">
@@ -102,6 +102,15 @@ FACE="Impact, Arial Black" SIZE="7" COLOR="#FFFFFF">!</FONT>
           <OPTION VALUE="canvas">Canvas 2D</OPTION>
           <OPTION VALUE="vml">VML (MSIE 5.5+)</OPTION>
           <OPTION VALUE="div">DIV-вокселі</OPTION>
+        </SELECT></TD>
+    <TD><FONT SIZE="1" COLOR="#8080FF">РОЗМІР ПОЛЯ</FONT><BR>
+        <SELECT ID="siz" onchange="setSize(this.value)">
+          <OPTION VALUE="160,120">160 x 120</OPTION>
+          <OPTION VALUE="240,180">240 x 180</OPTION>
+          <OPTION VALUE="320,240">320 x 240</OPTION>
+          <OPTION VALUE="400,300">400 x 300</OPTION>
+          <OPTION VALUE="640,480" SELECTED>640 x 480</OPTION>
+          <OPTION VALUE="800,600">800 x 600</OPTION>
         </SELECT></TD>
     <TD><FONT SIZE="1" COLOR="#8080FF">ДЕТАЛІЗАЦІЯ</FONT><BR>
         <SELECT ID="det" onchange="setDetail(this.value)">
@@ -127,7 +136,7 @@ FACE="Impact, Arial Black" SIZE="7" COLOR="#FFFFFF">!</FONT>
 
 <BR>
 
-<DIV STYLE="width:640px;height:20px;filter:progid:DXImageTransform.Microsoft.Gradient(startColorstr='#FFFF00',endColorstr='#FF6600',gradientType=1)">
+<DIV ID="bar" STYLE="width:640px;height:20px;filter:progid:DXImageTransform.Microsoft.Gradient(startColorstr='#FFFF00',endColorstr='#FF6600',gradientType=1)">
 <FONT COLOR="#000000" SIZE="2" FACE="Arial Black">
 /!\ САЙТ У РОЗРОБЦІ &mdash; UNDER CONSTRUCTION &mdash;
 <SPAN ID="blinker">ЗАХОДЬТЕ ЩЕ!</SPAN> /!\
@@ -145,7 +154,7 @@ FACE="Impact, Arial Black" SIZE="7" COLOR="#FFFFFF">!</FONT>
 </TABLE>
 
 <BR>
-<HR WIDTH="640" SIZE="4" NOSHADE COLOR="#800080">
+<HR ID="hr1" WIDTH="640" SIZE="4" NOSHADE COLOR="#800080">
 
 <FONT SIZE="1" COLOR="#808080">
 Працює в <B>Netscape Navigator 4</B>, <B>MSIE 4</B>, <B>MSIE 5.5-9</B> і будь-якому сучасному браузері.<BR>
@@ -191,6 +200,18 @@ var HH = CAMZ * Math.tan(FOV / 2);
 var HW = HH * W / H;
 var XLIM = HW - RAD, YBOT = -HH + RAD, YTOP = HH - RAD;
 var FLOORY = -HH;                         // площина підлоги
+
+// Розмір поля міняється на льоту. Фізика живе у світових одиницях і від
+// пікселів не залежить: масштаб проекції прив'язаний до висоти вікна, тому
+// шарик зберігає той самий відносний розмір і ту саму траєкторію.
+function applySize(w, h) {
+  W = w; H = h; CX = w / 2; CY = h / 2;
+  K = (H / 2) / Math.tan(FOV / 2);
+  HW = HH * W / H;                        // при 4:3 не змінюється
+  XLIM = HW - RAD;
+  if (bx > XLIM) { bx = XLIM; }
+  if (bx < -XLIM) { bx = -XLIM; }
+}
 
 var GRAV = -11.0, MINB = 8.4, SPINRATE = 2.6;
 
@@ -685,16 +706,16 @@ var vmlR = {
       try { document.namespaces.add("v", "urn:schemas-microsoft-com:vml", "#default#VML"); }
       catch (e) { }
     }
-    stage.innerHTML =
-      '<div id="vgrid" style="position:absolute;left:0px;top:0px;width:640px;height:480px"></div>'
-    + '<div id="vball" style="position:absolute;left:0px;top:0px;width:640px;height:480px"></div>';
+    var box = 'style="position:absolute;left:0px;top:0px;width:' + W + 'px;height:' + H + 'px"';
+    stage.innerHTML = '<div id="vgrid" ' + box + '></div><div id="vball" ' + box + '></div>';
     this.grid = E("vgrid");
     this.ball = E("vball");
   },
 
   shape: function (path, fill, stroke) {
-    var s = '<v:shape style="position:absolute;left:0px;top:0px;width:640px;height:480px" '
-          + 'coordsize="640,480" coordorigin="0,0" ';
+    var s = '<v:shape style="position:absolute;left:0px;top:0px;width:' + W
+          + 'px;height:' + H + 'px" '
+          + 'coordsize="' + W + ',' + H + '" coordorigin="0,0" ';
     s += fill ? ('filled="t" fillcolor="' + fill + '" ') : 'filled="f" ';
     s += stroke ? ('stroked="t" strokecolor="' + stroke + '" strokeweight="1px" ')
                 : 'stroked="f" ';
@@ -833,6 +854,27 @@ function setDetail(v) {
   if (stageEl) { mount(); }
 }
 
+// Обрамлення сторінки не вужче за 640, щоб селекти не тиснулись
+// на маленьких полях, але ширшає разом із полем на 800x600.
+function syncChrome() {
+  var tw = W > 640 ? W : 640, el;
+  el = E("mq"); if (el) { el.width = tw; }
+  el = E("t1"); if (el) { el.width = tw; }
+  el = E("t2"); if (el) { el.width = tw; }
+  el = E("hr1"); if (el) { el.width = tw; }
+  el = E("bar"); if (el && el.style) { el.style.width = tw + "px"; }
+}
+
+function setSize(v) {
+  if (!stageEl) { return; }               // Netscape 4: ILAYER не перебудуєш
+  var p = ("" + v).split(",");
+  applySize(parseInt(p[0], 10), parseInt(p[1], 10));
+  stageEl.style.width = W + "px";
+  stageEl.style.height = H + "px";
+  syncChrome();
+  mount();                                // фізику не чіпаємо: шарик летить далі
+}
+
 function loop() {
   if (paused) { return; }
   tick();
@@ -903,6 +945,7 @@ function boot() {
   }
   useRaf = window.requestAnimationFrame ? true : false;
   buildSphere();
+  syncChrome();
   mount();
   if (stageEl) {
     if (stageEl.addEventListener) {
