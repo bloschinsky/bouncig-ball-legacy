@@ -19,8 +19,8 @@ BODY { font-family: "Comic Sans MS", Arial, sans-serif; }
 
 <SCRIPT LANGUAGE="JavaScript">
 <!--
-// Netscape 4 грає звук лише через LiveAudio, і EMBED мусить бути вставлений
-// під час розбору документа: document.write після onload знищив би сторінку.
+// Netscape 4 plays sound only through LiveAudio; EMBED must be inserted during document parsing.
+// Calling document.write after onload would replace the page.
 if (document.layers) {
   document.write('<EMBED SRC="boing.wav" HIDDEN=TRUE AUTOSTART=FALSE MASTERSOUND>');
 }
@@ -175,10 +175,10 @@ FACE="Impact, Arial Black" SIZE="7" COLOR="#FFFFFF">!</FONT>
 
 <SCRIPT LANGUAGE="JavaScript">
 <!--
-// ##########################################################################
-//  БЛОК A -- ядро. Синтаксис JavaScript 1.2: ніяких try/catch, toFixed,
-//  apply, getElementById, appendChild. Цей блок мусить розпарситись у NN4.
-// ##########################################################################
+// Block A: core. JavaScript 1.2 compatible.
+// No try/catch, toFixed, apply, getElementById, or appendChild.
+// Netscape 4 must parse this block.
+// End Block A.
 
 function E(id) {
   if (document.all) { return document.all[id]; }
@@ -190,27 +190,27 @@ function setTxt(id, s) {
   if (el && typeof el.innerHTML != "undefined") { el.innerHTML = s; }
 }
 
-// ---------- камера ------------------------------------------------------
+// Camera
 var W = 640, H = 480, CX = 320, CY = 240;
 var FOV = 50 * Math.PI / 180;
-var K = 240 / Math.tan(FOV / 2);          // масштаб проекції, пікселів
-var CAMZ = 6.0;                           // відстань до площини шарика
-var RAD = 0.9;                            // радіус шарика
-var TILT = -17 * Math.PI / 180;           // нахил осі, як в оригіналі
-var WALLZ = CAMZ + 6.0;                   // задня стіна 3D-кімнати
+var K = 240 / Math.tan(FOV / 2);          // Projection scale in pixels
+var CAMZ = 6.0;                           // Distance to the ball plane
+var RAD = 0.9;                            // Ball radius
+var TILT = -17 * Math.PI / 180;           // Axis tilt, matching the original
+var WALLZ = CAMZ + 6.0;                   // Back wall of the 3D room
 
 var HH = CAMZ * Math.tan(FOV / 2);
 var HW = HH * W / H;
 var XLIM = HW - RAD, YBOT = -HH + RAD, YTOP = HH - RAD;
-var FLOORY = -HH;                         // площина підлоги
+var FLOORY = -HH;                         // Floor plane
 
-// Розмір поля міняється на льоту. Фізика живе у світових одиницях і від
-// пікселів не залежить: масштаб проекції прив'язаний до висоти вікна, тому
-// шарик зберігає той самий відносний розмір і ту саму траєкторію.
+// Canvas size can change at runtime. Physics uses world units, not pixels.
+// Projection scale follows viewport height, so the ball keeps its relative size and path.
+// The ball keeps the same relative size and trajectory.
 function applySize(w, h) {
   W = w; H = h; CX = w / 2; CY = h / 2;
   K = (H / 2) / Math.tan(FOV / 2);
-  HW = HH * W / H;                        // при 4:3 не змінюється
+  HW = HH * W / H;                        // 4:3 aspect ratio keeps this value unchanged
   XLIM = HW - RAD;
   if (bx > XLIM) { bx = XLIM; }
   if (bx < -XLIM) { bx = -XLIM; }
@@ -221,7 +221,7 @@ var GRAV = -11.0, MINB = 8.4, SPINRATE = 2.6;
 var GRIDCOL = "#9E219E", REDCOL = "#D1131C", WHTCOL = "#F2F2F2";
 var DARKCOL = "#5E0A10", SHADCOL = "#15151A", BGCOL = "#2A2A2E";
 
-// ---------- стан --------------------------------------------------------
+// State
 var NS = 16, NB = 8, VOX = 14;
 var ux = [], uy = [], uz = [], sxx = [], syy = [];
 var CULL = 1;
@@ -231,7 +231,7 @@ var room = false;
 var paused = false, tmr = null, prevT = 0, fpsAcc = 0, fpsCnt = 0;
 var R = null, sceneCache = null, stageEl = null;
 
-// ---------- меш ---------------------------------------------------------
+// Mesh
 function buildSphere() {
   ux = []; uy = []; uz = [];
   var i, j, t, st, ct, p;
@@ -246,7 +246,7 @@ function buildSphere() {
   }
 }
 
-// ---------- проекція: камера в нулі, дивиться вздовж -Z ------------------
+// Projection: camera at the origin looking along -Z
 function pjx(X, w) { return CX + K * X / w; }
 function pjy(Y, w) { return CY - K * Y / w; }
 
@@ -256,17 +256,17 @@ function projectMesh() {
   var n = ux.length, k, x, y, z, x1, z1, x2, y2, q;
   for (k = 0; k < n; k++) {
     x = ux[k]; y = uy[k]; z = uz[k];
-    x1 = x * cs + z * ss;                 // обертання навколо власної осі
+    x1 = x * cs + z * ss;                 // Rotate around the local axis
     z1 = z * cs - x * ss;
-    x2 = x1 * ct - y * st;                // нахил осі
+    x2 = x1 * ct - y * st;                // Apply axis tilt
     y2 = x1 * st + y * ct;
-    q = K / (CAMZ - z1);                  // перспектива
+    q = K / (CAMZ - z1);                  // Perspective scale
     sxx[k] = CX + (x2 + bx) * q;
     syy[k] = CY - (y2 + by) * q;
   }
 }
 
-// Групи полігонів за кольором; задні грані відсікаються за знаком площі.
+// Group polygons by color and cull back faces by signed area.
 function meshGroups() {
   var red = [], wht = [], NS1 = NS + 1, kept = 0, pass;
   var i, j, a, b, c, d, ax, ay, bX, bY, cX, cY, dX, dY, area;
@@ -286,14 +286,14 @@ function meshGroups() {
       }
     }
     if (kept > 0) { break; }
-    CULL = -CULL;                         // страховка: інший напрямок обходу
+    CULL = -CULL;                         // Fallback for reversed winding.
   }
   polys = kept;
   return [{ c: REDCOL, p: red }, { c: WHTCOL, p: wht }];
 }
 
-// ---------- силует і тінь -----------------------------------------------
-function ballRadiusPx() {                 // видимий радіус сфери (дотична)
+// Silhouette and shadow
+function ballRadiusPx() {                 // Visible sphere radius from the tangent
   return K * RAD / Math.sqrt(CAMZ * CAMZ - RAD * RAD);
 }
 function circlePoly(cx, cy, rx, ry) {
@@ -305,7 +305,7 @@ function circlePoly(cx, cy, rx, ry) {
   }
   return pts;
 }
-// Темна підкладка: ховає волосяні щілини між гранями.
+// Dark base hides subpixel gaps between faces.
 function discInfo() {
   var q = K / CAMZ, r = RAD * q * 0.97;
   var cx = CX + bx * q, cy = CY - by * q;
@@ -314,13 +314,13 @@ function discInfo() {
 function shadowInfo() {
   var i, a, rr, hn, q, px, py, w, pts;
   if (!room) {
-    q = K / (CAMZ + 0.7);                 // зсунутий силует на тій же стіні
+    q = K / (CAMZ + 0.7);                 // Shifted silhouette on the same wall
     return { cx: CX + (bx + 0.42) * q, cy: CY - (by - 0.30) * q,
              rx: RAD * q, ry: RAD * q,
              poly: circlePoly(CX + (bx + 0.42) * q, CY - (by - 0.30) * q,
                               RAD * q, RAD * q) };
   }
-  // 3D-кімната: коло на площині підлоги, спроєктоване в перспективі
+  // 3D room: project a floor-plane circle in perspective
   hn = (by - YBOT) / (YTOP - YBOT);
   rr = RAD * (1.0 - 0.32 * hn);
   pts = [];
@@ -340,7 +340,7 @@ function shadowInfo() {
            rx: (maxx - minx) / 2, ry: (maxy - miny) / 2, poly: pts };
 }
 
-// ---------- задній план: список відрізків [x1,y1,x2,y2] -----------------
+// Background: segment list [x1, y1, x2, y2]
 function sceneLines() {
   var L = [], i, v, x, y, horizon;
   if (!room) {
@@ -348,26 +348,26 @@ function sceneLines() {
     for (i = 0; i <= 12; i++) { v = i * H / 12; L[L.length] = [0, v, W, v]; }
     return L;
   }
-  horizon = pjy(FLOORY, WALLZ);           // де підлога сходиться зі стіною
-  for (i = -7; i <= 7; i++) {             // вертикалі задньої стіни
+  horizon = pjy(FLOORY, WALLZ);           // Floor-wall horizon
+  for (i = -7; i <= 7; i++) {             // Back-wall verticals
     x = pjx(i, WALLZ);
     L[L.length] = [x, 0, x, horizon];
   }
-  for (i = 0; i <= 6; i++) {              // горизонталі задньої стіни
+  for (i = 0; i <= 6; i++) {              // Back-wall horizontals
     y = pjy(FLOORY + i * 1.4, WALLZ);
     L[L.length] = [0, y, W, y];
   }
-  for (i = 0; i <= 6; i++) {              // поперечні лінії підлоги
+  for (i = 0; i <= 6; i++) {              // Floor cross lines
     y = pjy(FLOORY, CAMZ + i);
     L[L.length] = [0, y, W, y];
   }
-  for (i = -5; i <= 5; i++) {             // лінії в глибину: єдині діагональні
+  for (i = -5; i <= 5; i++) {             // Depth lines; the only diagonal lines
     L[L.length] = [pjx(i, CAMZ), pjy(FLOORY, CAMZ), pjx(i, WALLZ), horizon];
   }
   return L;
 }
 
-// ---------- фізика ------------------------------------------------------
+// Physics
 function step(dt) {
   vy += GRAV * dt;
   bx += vx * dt;
@@ -386,12 +386,12 @@ function step(dt) {
 }
 function bump() { hits++; boing(); }
 
-// ##########################################################################
-//  Рендерер 3: DIV-вокселі. Працює всюди, де є хоч якесь позиціонування:
-//  MSIE 4 (innerHTML), Netscape 4 (new Layer), сучасні браузери.
-//  Полігонів тут немає: для кожної клітинки кидається промінь у сферу,
-//  зворотним обертанням шукається клітинка шахівниці. Теж справжнє 3D.
-// ##########################################################################
+// DIV voxel renderer.
+// Renderer 3 uses DIV voxels and basic positioning.
+// Supported by MSIE 4 (innerHTML), Netscape 4 (new Layer), and modern browsers.
+// Cast a ray for each cell instead of using polygons.
+// Use inverse rotation to find the checkerboard cell. This is still real 3D.
+// End DIV voxel renderer.
 var divR = {
   nm: "DIV-вокселі",
   wantMesh: false,
@@ -406,12 +406,12 @@ var divR = {
     this.side = Math.ceil(2 * ballRadiusPx() / this.grid);
   },
 
-  // Порядок створення = порядок накладання: спершу фон, потім тінь, потім шарик
+  // Creation order sets layer order: background, shadow, then ball.
   drawScene: function (lines) {
     if (this.lay) { this.buildNN(lines); } else { this.buildDOM(lines); }
   },
 
-  // один відрізок -> осьові прямокутники (діагоналі йдуть щаблями)
+  // Convert each segment to axis-aligned rectangles; diagonals use steps.
   rects: function (out, s) {
     var x1 = s[0], y1 = s[1], x2 = s[2], y2 = s[3], k, steps, ax, ay, bxx, byy;
     if (Math.abs(x1 - x2) < 1.5 || Math.abs(y1 - y2) < 1.5) {
@@ -510,7 +510,7 @@ var divR = {
     var T = Math.round(CY - by * q - size / 2);
     this.place(this.box, L, T);
 
-    // тінь: коло прямокутниками не намалюєш, але п'ять смуг дають блоб
+    // Approximate the shadow blob with five rectangular bands.
     var sh = shadowInfo(), i, fy, hw, bh = (2 * sh.ry) / 5;
     for (i = 0; i < 5; i++) {
       fy = -1 + (2 * i + 1) / 5;
@@ -520,7 +520,7 @@ var divR = {
                  Math.max(1, Math.round(2 * hw)), Math.max(1, Math.round(bh)));
     }
 
-    // рейкастинг: інверсія тих самих обертань, що й у меша
+    // Ray casting: invert the same rotations used by the mesh.
     var ict = Math.cos(-TILT), ist = Math.sin(-TILT);
     var ics = Math.cos(-spin), iss = Math.sin(-spin);
     var ccz = -CAMZ, RR = RAD * RAD, half = this.side / 2;
@@ -553,7 +553,7 @@ var divR = {
           col = ((ii + jj) % 2) === 0 ? REDCOL : WHTCOL;
           cnt++;
         }
-        if (col != this.prev[n]) {         // пишемо лише те, що змінилось
+        if (col != this.prev[n]) {         // Update only changed cells.
           this.prev[n] = col;
           if (col === "") {
             if (this.lay) { this.cells[n].bgColor = null; }
@@ -567,7 +567,7 @@ var divR = {
   }
 };
 
-// ---------- звук --------------------------------------------------------
+// Sound
 var sndOn = true, sndIdx = 0, lastSnd = 0, waFn = null;
 
 function toggleSound() {
@@ -580,17 +580,17 @@ function boing() {
   var now = new Date().getTime();
   if (now - lastSnd < 90) { return; }
   lastSnd = now;
-  if (waFn) { waFn(); return; }                     // сучасні: Web Audio
+  if (waFn) { waFn(); return; }                     // Modern browsers: Web Audio
   var b = E("snd" + sndIdx);
   if (b && typeof b.src != "undefined") {           // MSIE: BGSOUND
     b.src = "boing.wav"; sndIdx = (sndIdx + 1) % 3; return;
   }
   if (document.embeds && document.embeds.length && document.embeds[0].play) {
-    document.embeds[0].play(false);                 // NN4: LiveAudio
+    document.embeds[0].play(false);                 // Netscape 4: LiveAudio
   }
 }
 
-// ---------- мишка: спільна логіка ---------------------------------------
+// Mouse controls
 function hitTest(mx, my) {
   var q = K / CAMZ, r = ballRadiusPx();
   var dx = mx - (CX + bx * q), dy = my - (CY - by * q);
@@ -611,7 +611,7 @@ function kick(mx, my) {
   boing();
 }
 
-// ---------- головний цикл -----------------------------------------------
+// Main loop
 function tick() {
   var now = new Date().getTime();
   var dt = (now - prevT) / 1000;
@@ -641,10 +641,10 @@ function tick() {
 
 <SCRIPT LANGUAGE="JavaScript">
 <!--
-// ##########################################################################
-//  БЛОК B -- растеризатори Canvas 2D і VML. Netscape 4 цей блок або
-//  проігнорує, або не розпарсить: блок A від цього не страждає.
-// ##########################################################################
+// Canvas 2D and VML rasterizers.
+// Netscape 4 may ignore or fail to parse this block.
+// Block A remains unaffected.
+// End Canvas 2D and VML rasterizers.
 
 var canR = {
   nm: "Canvas 2D",
@@ -680,7 +680,7 @@ var canR = {
     g.fillRect(0, 0, W, H);
 
     g.save();
-    g.translate(0.5, 0.5);                 // щоб лінії лягали на піксель
+    g.translate(0.5, 0.5);                 // Align lines to physical pixels
     g.strokeStyle = GRIDCOL;
     g.lineWidth = 1;
     g.beginPath();
@@ -699,10 +699,10 @@ var canR = {
   }
 };
 
-// Справжня перевірка VML. document.namespaces є в кожному IE5+ незалежно
-// від того, чи встановлена й зареєстрована VGX.DLL, яка власне і малює.
-// Тому перевіряємо не простір імен, а те, чи поведінка реально приліпилась:
-// у живого VML-об'єкта властивість adj стає об'єктом.
+// Use actual VML detection. document.namespaces exists in every IE5+ browser,
+// even when VGX.DLL is unavailable or unregistered.
+// Check whether the VML behavior is attached instead of checking the namespace.
+// For a valid VML object, the adj property becomes an object.
 var vmlProbe = null;
 function haveVML() {
   if (vmlProbe !== null) { return vmlProbe; }
@@ -747,7 +747,7 @@ var vmlR = {
     return s + 'path="' + path + '"></v:shape>';
   },
 
-  // увесь задній план -- один VML-шлях з відкритими підшляхами
+  // Render the full background as one VML path with open subpaths.
   drawScene: function (lines) {
     var s = [], i, L;
     for (i = 0; i < lines.length; i++) {
@@ -772,7 +772,7 @@ var vmlR = {
     return s.join("") + "e";
   },
 
-  // чотири елементи на кадр: тінь, підкладка, червоні клітинки, білі
+  // Four elements per frame: shadow, base, red cells, and white cells.
   frame: function (groups, shadow, disc) {
     var h = this.shape(this.polyPath([shadow.poly]), SHADCOL, null)
           + this.shape(this.polyPath([disc.poly]), DARKCOL, null);
@@ -786,7 +786,7 @@ var vmlR = {
   }
 };
 
-// ---------- Web Audio: той самий "boing", синтезований на льоту ----------
+// Web Audio: synthesize the same boing sound at runtime.
 (function () {
   var AC = window.AudioContext || window.webkitAudioContext;
   if (!AC) { return; }
@@ -830,9 +830,9 @@ var vmlR = {
 
 <SCRIPT LANGUAGE="JavaScript">
 <!--
-// ##########################################################################
-//  БЛОК C -- вибір растеризатора і запуск. Знову JS 1.2-safe.
-// ##########################################################################
+// Renderer selection and startup.
+// JavaScript 1.2 compatible.
+// End renderer selection and startup.
 
 var forced = "auto", useRaf = false, pickNote = "";
 
@@ -865,7 +865,7 @@ function pickRenderer() {
   return divR;
 }
 
-// Рядок діагностики: видно, що саме браузер умів, а що ні.
+// Diagnostic text shows supported and unsupported browser features.
 function probeInfo() {
   var s = "canvas:" + (okCanvas() ? "є" : "нема");
   s += " &middot; namespaces:" + (document.namespaces ? "є" : "нема");
@@ -875,7 +875,7 @@ function probeInfo() {
   return s;
 }
 
-// Позначаємо в меню те, чого на цій машині немає
+// Mark unavailable renderers in the menu.
 function labelOptions() {
   var sel = E("ren"), i, o, t;
   if (!sel || !sel.options) { return; }
@@ -898,7 +898,7 @@ function mount() {
 }
 
 function setRenderer(v) {
-  if (!stageEl) { return; }                 // Netscape 4: перемикання немає
+  if (!stageEl) { return; }                 // Netscape 4 does not support renderer switching.
   forced = v;
   mount();
 }
@@ -916,8 +916,8 @@ function setDetail(v) {
   if (stageEl) { mount(); }
 }
 
-// Обрамлення сторінки не вужче за 640, щоб селекти не тиснулись
-// на маленьких полях, але ширшає разом із полем на 800x600.
+// Keep the page frame at least 640 pixels wide so selects do not shrink.
+// Expand it with the stage for 800x600.
 function syncChrome() {
   var tw = W > 640 ? W : 640, el;
   el = E("mq"); if (el) { el.width = tw; }
@@ -929,13 +929,13 @@ function syncChrome() {
 }
 
 function setSize(v) {
-  if (!stageEl) { return; }               // Netscape 4: ILAYER не перебудуєш
+  if (!stageEl) { return; }               // Netscape 4 cannot rebuild an ILAYER.
   var p = ("" + v).split(",");
   applySize(parseInt(p[0], 10), parseInt(p[1], 10));
   stageEl.style.width = W + "px";
   stageEl.style.height = H + "px";
   syncChrome();
-  mount();                                // фізику не чіпаємо: шарик летить далі
+  mount();                                // Keep physics state; the ball continues moving.
 }
 
 function loop() {
@@ -956,7 +956,7 @@ function togglePause() {
   } else { startLoop(); }
 }
 
-// ---------- мишка -------------------------------------------------------
+// Mouse controls
 function absPos(el) {
   var x = 0, y = 0;
   while (el) { x += el.offsetLeft; y += el.offsetTop; el = el.offsetParent; }
@@ -985,7 +985,7 @@ function onDownNN(e) {
   return true;
 }
 
-// ---------- дрібнички 90-х ----------------------------------------------
+// 90s extras
 function chrome() {
   var n = 1024000 + Math.floor(Math.random() * 74000), s = "" + n;
   while (s.length < 7) { s = "0" + s; }
