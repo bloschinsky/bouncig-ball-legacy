@@ -72,3 +72,7 @@ boing.wav
   mouse path and inline handlers must continue to work in old browsers.
 - [ ] Check contrast and keyboard controls in modern browsers without changing
   the intentional 1990s home-page style.
+- [ ] **Scene lighting (research).** Add one uniform fill light and one hard
+  directional light at a 45-degree angle. Design and feasibility are documented
+  in [`docs/lighting.md`](docs/lighting.md); not implemented and unverified on
+  the legacy target browsers.
