@@ -1,0 +1,525 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<TITLE>*** AMIGA BOING BALL *** Official Homepage ***</TITLE>
+<META NAME="keywords" CONTENT="amiga, boing, ball, demo, webgl, commodore, 1984">
+<STYLE TYPE="text/css">
+BODY { font-family: "Comic Sans MS", "Trebuchet MS", sans-serif; }
+CANVAS { display: block; }
+</STYLE>
+</HEAD>
+
+<BODY BGCOLOR="#000000" TEXT="#C0C0C0" LINK="#00FFFF" VLINK="#FF00FF">
+
+<CENTER>
+
+<MARQUEE BGCOLOR="#000080" WIDTH="640" SCROLLAMOUNT="4" HEIGHT="26">
+<FONT COLOR="#FFFF00" SIZE="3"><B>&nbsp;*** ВІТАЄМО НА МОЇЙ ДОМАШНІЙ СТОРІНЦІ ***&nbsp;
+Amiga 1000 &middot; 1984 &middot; Dale Luck &amp; RJ Mical &middot; 512 KB RAM &middot;
+НАТИСНІТЬ НА ШАРИК МИШКОЮ!!!&nbsp;</B></FONT>
+</MARQUEE>
+
+<BR>
+
+<FONT FACE="Impact, Arial Black" SIZE="7" COLOR="#FF00FF">B</FONT><FONT
+FACE="Impact, Arial Black" SIZE="7" COLOR="#FFFF00">O</FONT><FONT
+FACE="Impact, Arial Black" SIZE="7" COLOR="#00FF00">I</FONT><FONT
+FACE="Impact, Arial Black" SIZE="7" COLOR="#00FFFF">N</FONT><FONT
+FACE="Impact, Arial Black" SIZE="7" COLOR="#FF6600">G</FONT>
+<FONT FACE="Impact, Arial Black" SIZE="7" COLOR="#FFFFFF">!</FONT>
+
+<BR>
+<FONT SIZE="2" COLOR="#00FF00"><I>&laquo;Той самий шарик, що змусив усіх повірити в Амігу&raquo;</I></FONT>
+<BR><BR>
+
+<TABLE BORDER="6" CELLPADDING="8" CELLSPACING="0" BGCOLOR="#101018" BORDERCOLOR="#808080">
+<TR>
+  <TD ALIGN="CENTER">
+
+  <TABLE BORDER="2" CELLPADDING="0" CELLSPACING="0" BGCOLOR="#000000">
+  <TR><TD>
+    <CANVAS ID="boing" WIDTH="640" HEIGHT="480">
+    Ваш браузер не підтримує тег CANVAS. Спробуйте Netscape Navigator 3.0.
+    </CANVAS>
+  </TD></TR>
+  </TABLE>
+
+  <BR>
+
+  <TABLE BORDER="1" CELLPADDING="4" CELLSPACING="0" WIDTH="640" BGCOLOR="#000040">
+  <TR ALIGN="CENTER">
+    <TD><FONT SIZE="1" COLOR="#8080FF">УДАРІВ</FONT><BR>
+        <FONT SIZE="3" COLOR="#00FF00" FACE="Courier New"><B><SPAN ID="hits">0</SPAN></B></FONT></TD>
+    <TD><FONT SIZE="1" COLOR="#8080FF">ПІДКИДАНЬ</FONT><BR>
+        <FONT SIZE="3" COLOR="#FFFF00" FACE="Courier New"><B><SPAN ID="kicks">0</SPAN></B></FONT></TD>
+    <TD><FONT SIZE="1" COLOR="#8080FF">ВИСОТА</FONT><BR>
+        <FONT SIZE="3" COLOR="#00FFFF" FACE="Courier New"><B><SPAN ID="alt">0</SPAN></B></FONT></TD>
+    <TD><FONT SIZE="1" COLOR="#8080FF">КАДР/С</FONT><BR>
+        <FONT SIZE="3" COLOR="#FF8000" FACE="Courier New"><B><SPAN ID="fps">--</SPAN></B></FONT></TD>
+    <TD><FONT SIZE="1" COLOR="#8080FF">ЗВУК</FONT><BR>
+        <INPUT TYPE="BUTTON" ID="snd" VALUE="УВІМКНУТИ"></TD>
+  </TR>
+  </TABLE>
+
+  <BR>
+  <FONT SIZE="2" COLOR="#FFFF00">
+  &raquo; Клацніть <B>по самому шарику</B>, щоб підкинути його.
+  Бити збоку &mdash; змінює напрямок обертання. &laquo;
+  </FONT>
+
+  </TD>
+</TR>
+</TABLE>
+
+<BR>
+
+<TABLE BORDER="0" CELLPADDING="2" CELLSPACING="0" BGCOLOR="#FFCC00" WIDTH="640">
+<TR><TD ALIGN="CENTER">
+  <FONT COLOR="#000000" SIZE="2" FACE="Arial Black">
+  /!\ САЙТ У РОЗРОБЦІ &mdash; UNDER CONSTRUCTION &mdash;
+  <SPAN ID="blinker">ЗАХОДЬТЕ ЩЕ!</SPAN> /!\
+  </FONT>
+</TD></TR>
+</TABLE>
+
+<BR>
+
+<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0">
+<TR>
+  <TD><FONT SIZE="2" COLOR="#C0C0C0">Ви відвідувач номер&nbsp;</FONT></TD>
+  <TD BGCOLOR="#000000" STYLE="border:2px inset #808080">
+    <FONT FACE="Courier New" SIZE="4" COLOR="#00FF00"><B><SPAN ID="counter">0000000</SPAN></B></FONT>
+  </TD>
+  <TD><FONT SIZE="2" COLOR="#C0C0C0">&nbsp;з 1996 року</FONT></TD>
+</TR>
+</TABLE>
+
+<BR>
+<HR WIDTH="640" SIZE="4" NOSHADE COLOR="#800080">
+
+<FONT SIZE="1" COLOR="#808080">
+Найкраще виглядає у <B>Netscape Navigator 3.0</B> при роздільній здатності <B>640x480</B>, 256 кольорів.<BR>
+Ця сторінка не використовує Java, cookies або фрейми. Тільки WebGL, чесне слово.<BR>
+Зроблено вручну в NOTEPAD.EXE &middot; Розмір: 1 сторінка &middot; Час завантаження на 28.8k: приблизно 4 секунди<BR>
+<BR>
+[ <A HREF="#">ГОСТЬОВА КНИГА</A> ] [ <A HREF="#">МОЇ ПОСИЛАННЯ</A> ] [ <A HREF="#">ЛИСТ ВЕБМАЙСТРУ</A> ]<BR>
+<BR>
+&copy; 1996-1999 &middot; Всі права захищено &middot; Amiga &mdash; торгова марка Commodore
+</FONT>
+
+<BR><BR>
+
+</CENTER>
+
+<SCRIPT TYPE="text/javascript">
+<!--
+// ==========================================================================
+//  BOING BALL  --  реконструкція демки Amiga 1000 (1984) на WebGL
+//  16 меридіанів x 8 паралелей, нахил осі 17 градусів, тінь, сітка на стіні
+// ==========================================================================
+
+// ---------- дрібнички в стилі 90-х -----------------------------------------
+(function () {
+  var n = 1024000 + Math.floor(Math.random() * 74000);
+  var s = String(n);
+  while (s.length < 7) { s = "0" + s; }
+  document.getElementById("counter").innerHTML = s;
+
+  var b = document.getElementById("blinker"), on = true;
+  setInterval(function () {
+    on = !on;
+    b.style.visibility = on ? "visible" : "hidden";
+  }, 550);
+})();
+
+// ---------- матрична математика -------------------------------------------
+function mIdent() {
+  return new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]);
+}
+function mMul(a, b) {
+  var o = new Float32Array(16), i, j, k, s;
+  for (i = 0; i < 4; i++) {
+    for (j = 0; j < 4; j++) {
+      s = 0;
+      for (k = 0; k < 4; k++) { s += a[k * 4 + j] * b[i * 4 + k]; }
+      o[i * 4 + j] = s;
+    }
+  }
+  return o;
+}
+function mPersp(fovY, aspect, near, far) {
+  var f = 1 / Math.tan(fovY / 2), m = new Float32Array(16);
+  m[0] = f / aspect; m[5] = f;
+  m[10] = (far + near) / (near - far);
+  m[11] = -1;
+  m[14] = 2 * far * near / (near - far);
+  return m;
+}
+function mTrans(x, y, z) {
+  var m = mIdent(); m[12] = x; m[13] = y; m[14] = z; return m;
+}
+function mRotY(a) {
+  var m = mIdent(), c = Math.cos(a), s = Math.sin(a);
+  m[0] = c; m[2] = -s; m[8] = s; m[10] = c; return m;
+}
+function mRotZ(a) {
+  var m = mIdent(), c = Math.cos(a), s = Math.sin(a);
+  m[0] = c; m[1] = s; m[4] = -s; m[5] = c; return m;
+}
+
+// ---------- параметри сцени -----------------------------------------------
+var SEGMENTS = 16;          // меридіани (як в оригіналі)
+var BANDS    = 8;           // паралелі
+var RADIUS   = 0.9;
+var TILT     = -17 * Math.PI / 180;   // характерний нахил осі
+var CAM_Z    = 6.0;
+var FOV      = 50 * Math.PI / 180;
+var GRAVITY  = -11.0;
+var MIN_BOUNCE = 8.4;       // щоб шарик стрибав вічно, як в демці
+var SPIN_RATE  = 2.6;
+
+var HALF_H = CAM_Z * Math.tan(FOV / 2);
+var HALF_W = HALF_H * (640 / 480);
+var X_LIM  = HALF_W - RADIUS;
+var Y_BOT  = -HALF_H + RADIUS;
+var Y_TOP  = HALF_H - RADIUS;
+
+// стан шарика
+var bx = -1.5, by = 0.6, vx = 2.4, vy = 0.0;
+var spin = 0, spinDir = 1;
+var hits = 0, kicks = 0;
+
+// ---------- WebGL ---------------------------------------------------------
+var canvas = document.getElementById("boing");
+var gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+
+if (!gl) {
+  canvas.parentNode.innerHTML =
+    '<FONT COLOR="#FF0000" SIZE="4"><B>WebGL недоступний.<BR>' +
+    'Схоже, ваш браузер ще старіший, ніж ця сторінка.</B></FONT>';
+} else {
+  main();
+}
+
+function compile(type, src) {
+  var s = gl.createShader(type);
+  gl.shaderSource(s, src);
+  gl.compileShader(s);
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+    throw new Error(gl.getShaderInfoLog(s));
+  }
+  return s;
+}
+function program(vs, fs) {
+  var p = gl.createProgram();
+  gl.attachShader(p, compile(gl.VERTEX_SHADER, vs));
+  gl.attachShader(p, compile(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+    throw new Error(gl.getProgramInfoLog(p));
+  }
+  return p;
+}
+
+var ballProg, gridProg, ballBuf, gridBuf, ballVerts, gridVerts;
+var uMVP, uFlat, uUseFlat, aPos, aCol, gPos, gCol;
+var proj = mPersp(FOV, 640 / 480, 0.1, 100.0);
+
+function buildBall() {
+  var data = [];
+  var i, j, t0, t1, p0, p1, c, quad, q, v;
+
+  function vert(t, p) {
+    return [RADIUS * Math.sin(t) * Math.cos(p),
+            RADIUS * Math.cos(t),
+            RADIUS * Math.sin(t) * Math.sin(p)];
+  }
+  function put(v, c) { data.push(v[0], v[1], v[2], c[0], c[1], c[2]); }
+
+  for (j = 0; j < BANDS; j++) {
+    t0 = j / BANDS * Math.PI;
+    t1 = (j + 1) / BANDS * Math.PI;
+    for (i = 0; i < SEGMENTS; i++) {
+      p0 = i / SEGMENTS * 2 * Math.PI;
+      p1 = (i + 1) / SEGMENTS * 2 * Math.PI;
+      // класична червоно-біла шахівниця
+      c = ((i + j) % 2 === 0) ? [0.84, 0.06, 0.10] : [0.96, 0.96, 0.96];
+      quad = [vert(t0, p0), vert(t0, p1), vert(t1, p1), vert(t1, p0)];
+      var tri = [0, 1, 2, 0, 2, 3];
+      for (q = 0; q < 6; q++) { put(quad[tri[q]], c); }
+    }
+  }
+  ballVerts = data.length / 6;
+  ballBuf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, ballBuf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
+}
+
+function buildGrid() {
+  // плоска сітка-стіна: 16 клітинок по горизонталі, 12 по вертикалі
+  var d = [], NV = 16, NH = 12, i, t;
+  for (i = 0; i <= NV; i++) { t = -1 + 2 * i / NV; d.push(t, -1, t, 1); }
+  for (i = 0; i <= NH; i++) { t = -1 + 2 * i / NH; d.push(-1, t, 1, t); }
+  gridVerts = d.length / 2;
+  gridBuf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, gridBuf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(d), gl.STATIC_DRAW);
+}
+
+function main() {
+  ballProg = program(
+    "attribute vec3 aPos;" +
+    "attribute vec3 aCol;" +
+    "uniform mat4 uMVP;" +
+    "uniform vec3 uFlat;" +
+    "uniform float uUseFlat;" +
+    "varying vec3 vCol;" +
+    "void main(){" +
+    "  gl_Position = uMVP * vec4(aPos,1.0);" +
+    "  vCol = mix(aCol, uFlat, uUseFlat);" +
+    "}",
+    "precision mediump float;" +
+    "varying vec3 vCol;" +
+    "void main(){ gl_FragColor = vec4(vCol,1.0); }"
+  );
+  gridProg = program(
+    "attribute vec2 gPos;" +
+    "void main(){ gl_Position = vec4(gPos, 0.0, 1.0); }",
+    "precision mediump float;" +
+    "void main(){ gl_FragColor = vec4(0.62,0.13,0.62,1.0); }"
+  );
+
+  aPos = gl.getAttribLocation(ballProg, "aPos");
+  aCol = gl.getAttribLocation(ballProg, "aCol");
+  uMVP = gl.getUniformLocation(ballProg, "uMVP");
+  uFlat = gl.getUniformLocation(ballProg, "uFlat");
+  uUseFlat = gl.getUniformLocation(ballProg, "uUseFlat");
+  gPos = gl.getAttribLocation(gridProg, "gPos");
+
+  buildBall();
+  buildGrid();
+
+  gl.viewport(0, 0, 640, 480);
+  gl.depthFunc(gl.LEQUAL);
+
+  canvas.onmousedown = onClick;
+  canvas.onmousemove = onMove;
+  document.getElementById("snd").onclick = toggleSound;
+
+  requestAnimationFrame(frame);
+}
+
+// ---------- анімація ------------------------------------------------------
+var last = 0, fpsAcc = 0, fpsCnt = 0;
+
+function frame(now) {
+  requestAnimationFrame(frame);
+  if (!last) { last = now; return; }
+  var dt = (now - last) / 1000;
+  last = now;
+  if (dt > 0.05) { dt = 0.05; }   // на випадок, коли вкладку згорнули
+
+  step(dt);
+  draw();
+
+  fpsAcc += dt; fpsCnt++;
+  if (fpsAcc >= 0.5) {
+    document.getElementById("fps").innerHTML = Math.round(fpsCnt / fpsAcc);
+    fpsAcc = 0; fpsCnt = 0;
+  }
+}
+
+function step(dt) {
+  vy += GRAVITY * dt;
+  bx += vx * dt;
+  by += vy * dt;
+
+  if (bx < -X_LIM) { bx = -X_LIM; vx = Math.abs(vx); spinDir = -spinDir; wall(); }
+  else if (bx > X_LIM) { bx = X_LIM; vx = -Math.abs(vx); spinDir = -spinDir; wall(); }
+
+  if (by < Y_BOT) {
+    by = Y_BOT;
+    vy = Math.abs(vy) * 0.99;
+    if (vy < MIN_BOUNCE) { vy = MIN_BOUNCE; }
+    hits++;
+    document.getElementById("hits").innerHTML = hits;
+    boing(Math.min(1, vy / 11), 1.0);
+  } else if (by > Y_TOP) {
+    by = Y_TOP;
+    vy = -Math.abs(vy) * 0.85;
+    hits++;
+    document.getElementById("hits").innerHTML = hits;
+    boing(0.55, 1.3);
+  }
+
+  spin += SPIN_RATE * spinDir * dt;
+  document.getElementById("alt").innerHTML = (by - Y_BOT).toFixed(2);
+}
+
+function wall() {
+  hits++;
+  document.getElementById("hits").innerHTML = hits;
+  boing(0.6, 1.15);
+}
+
+function ballMatrix(ox, oy, oz) {
+  var m = mTrans(bx + ox, by + oy, -CAM_Z + oz);
+  m = mMul(m, mRotZ(TILT));
+  m = mMul(m, mRotY(spin));
+  return mMul(proj, m);
+}
+
+function draw() {
+  gl.clearColor(0.16, 0.16, 0.18, 1.0);   // сіро-синя стіна
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+  // сітка на стіні -- пласка, без глибини, як у 1984-му
+  gl.disable(gl.DEPTH_TEST);
+  gl.useProgram(gridProg);
+  gl.disableVertexAttribArray(aCol);
+  gl.bindBuffer(gl.ARRAY_BUFFER, gridBuf);
+  gl.enableVertexAttribArray(gPos);
+  gl.vertexAttribPointer(gPos, 2, gl.FLOAT, false, 0, 0);
+  gl.drawArrays(gl.LINES, 0, gridVerts);
+
+  // шарик і його тінь
+  gl.enable(gl.DEPTH_TEST);
+  gl.clear(gl.DEPTH_BUFFER_BIT);
+  gl.useProgram(ballProg);
+  gl.bindBuffer(gl.ARRAY_BUFFER, ballBuf);
+  gl.enableVertexAttribArray(aPos);
+  gl.enableVertexAttribArray(aCol);
+  gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 24, 0);
+  gl.vertexAttribPointer(aCol, 3, gl.FLOAT, false, 24, 12);
+
+  // тінь: той самий шарик, темний, зсунутий праворуч-вниз і глибше
+  gl.uniform1f(uUseFlat, 1.0);
+  gl.uniform3f(uFlat, 0.09, 0.09, 0.11);
+  gl.uniformMatrix4fv(uMVP, false, ballMatrix(0.42, -0.30, -0.7));
+  gl.drawArrays(gl.TRIANGLES, 0, ballVerts);
+
+  gl.uniform1f(uUseFlat, 0.0);
+  gl.uniformMatrix4fv(uMVP, false, ballMatrix(0, 0, 0));
+  gl.drawArrays(gl.TRIANGLES, 0, ballVerts);
+}
+
+// ---------- мишка ---------------------------------------------------------
+function screenPos() {
+  // центр шарика у пікселях + радіус у пікселях
+  var f = 1 / Math.tan(FOV / 2);
+  var ndcX = (f / (640 / 480)) * bx / CAM_Z;
+  var ndcY = f * by / CAM_Z;
+  return {
+    x: (ndcX * 0.5 + 0.5) * 640,
+    y: (1 - (ndcY * 0.5 + 0.5)) * 480,
+    r: (f * RADIUS / CAM_Z) * 240
+  };
+}
+
+function pointer(e) {
+  var b = canvas.getBoundingClientRect();
+  return {
+    x: (e.clientX - b.left) * (640 / b.width),
+    y: (e.clientY - b.top) * (480 / b.height)
+  };
+}
+
+function isOnBall(p) {
+  var s = screenPos();
+  var dx = p.x - s.x, dy = p.y - s.y;
+  return { hit: dx * dx + dy * dy <= s.r * s.r, dx: dx / s.r, dy: dy / s.r };
+}
+
+function onMove(e) {
+  canvas.style.cursor = isOnBall(pointer(e)).hit ? "pointer" : "default";
+}
+
+function onClick(e) {
+  startAudio();                       // будь-який клік розблоковує звук
+  var t = isOnBall(pointer(e));
+  if (!t.hit) { return; }
+
+  // удар знизу підкидає, удар збоку штовхає в протилежний бік
+  vy = MIN_BOUNCE + 3.0 * Math.max(0, t.dy) + 1.5;
+  vx += -t.dx * 3.2;
+  if (vx > 4.5) { vx = 4.5; }
+  if (vx < -4.5) { vx = -4.5; }
+  if (Math.abs(vx) < 1.2) { vx = vx < 0 ? -1.2 : 1.2; }
+  if (Math.abs(t.dx) > 0.45) { spinDir = t.dx > 0 ? -1 : 1; }
+
+  kicks++;
+  document.getElementById("kicks").innerHTML = kicks;
+  boing(0.9, 0.85);
+}
+
+// ---------- звук: синтезований "boing" ------------------------------------
+var ac = null, noiseBuf = null, sndOn = false;
+
+function startAudio() {
+  if (!sndOn) { return; }
+  if (!ac) {
+    var C = window.AudioContext || window.webkitAudioContext;
+    if (!C) { return; }
+    ac = new C();
+    var n = ac.sampleRate * 0.09, buf = ac.createBuffer(1, n, ac.sampleRate);
+    var d = buf.getChannelData(0);
+    for (var i = 0; i < n; i++) { d[i] = (Math.random() * 2 - 1) * (1 - i / n); }
+    noiseBuf = buf;
+  }
+  if (ac.state === "suspended") { ac.resume(); }
+}
+
+function toggleSound() {
+  sndOn = !sndOn;
+  document.getElementById("snd").value = sndOn ? "ВИКЛЮЧИТИ" : "УВІМКНУТИ";
+  if (sndOn) { startAudio(); boing(0.5, 1.0); }
+}
+
+function boing(amp, pitch) {
+  if (!sndOn || !ac || ac.state !== "running") { return; }
+  var t = ac.currentTime;
+  var out = ac.createGain();
+  out.gain.value = 0.5 * amp;
+  out.connect(ac.destination);
+
+  // корпус удару: синус, що падає з 330 до 70 Гц
+  var o = ac.createOscillator();
+  o.type = "sine";
+  o.frequency.setValueAtTime(330 * pitch, t);
+  o.frequency.exponentialRampToValueAtTime(70 * pitch, t + 0.24);
+  var g = ac.createGain();
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(0.9, t + 0.008);
+  g.gain.exponentialRampToValueAtTime(0.0008, t + 0.32);
+  o.connect(g); g.connect(out);
+  o.start(t); o.stop(t + 0.35);
+
+  // металевий призвук
+  var o2 = ac.createOscillator();
+  o2.type = "triangle";
+  o2.frequency.setValueAtTime(760 * pitch, t);
+  o2.frequency.exponentialRampToValueAtTime(240 * pitch, t + 0.10);
+  var g2 = ac.createGain();
+  g2.gain.setValueAtTime(0.35, t);
+  g2.gain.exponentialRampToValueAtTime(0.0006, t + 0.14);
+  o2.connect(g2); g2.connect(out);
+  o2.start(t); o2.stop(t + 0.15);
+
+  // клац від дотику
+  var s = ac.createBufferSource();
+  s.buffer = noiseBuf;
+  var bp = ac.createBiquadFilter();
+  bp.type = "bandpass";
+  bp.frequency.value = 1100 * pitch;
+  bp.Q.value = 1.1;
+  var g3 = ac.createGain();
+  g3.gain.value = 0.30;
+  s.connect(bp); bp.connect(g3); g3.connect(out);
+  s.start(t);
+}
+//-->
+</SCRIPT>
+
+</BODY>
+</HTML>
