@@ -2,9 +2,8 @@
 <HEAD>
 <META HTTP-EQUIV="X-UA-Compatible" CONTENT="IE=5">
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
-<TITLE>*** AMIGA BOING BALL *** VML Edition *** Best viewed with MSIE 5.5 ***</TITLE>
+<TITLE>*** AMIGA BOING BALL *** Universal Edition *** 1984-2026 ***</TITLE>
 <META NAME="GENERATOR" CONTENT="Microsoft FrontPage 98">
-<META NAME="keywords" CONTENT="amiga, boing, ball, vml, dhtml, msie, commodore">
 
 <STYLE TYPE="text/css">
 V\:* { behavior: url(#default#VML); }
@@ -18,12 +17,22 @@ BODY { font-family: "Comic Sans MS", Arial, sans-serif; }
 <BGSOUND ID="snd1" LOOP="1" VOLUME="-400">
 <BGSOUND ID="snd2" LOOP="1" VOLUME="-400">
 
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+// Netscape 4 грає звук лише через LiveAudio, і EMBED мусить бути вставлений
+// під час розбору документа: document.write після onload знищив би сторінку.
+if (document.layers) {
+  document.write('<EMBED SRC="boing.wav" HIDDEN=TRUE AUTOSTART=FALSE MASTERSOUND>');
+}
+//-->
+</SCRIPT>
+
 <CENTER>
 
 <MARQUEE BGCOLOR="#000080" WIDTH="640" SCROLLAMOUNT="4" HEIGHT="26">
 <FONT COLOR="#FFFF00" SIZE="3"><B>&nbsp;*** ВІТАЄМО НА МОЇЙ ДОМАШНІЙ СТОРІНЦІ ***&nbsp;
 Amiga 1000 &middot; 1984 &middot; Dale Luck &amp; RJ Mical &middot; 512 KB RAM &middot;
-Тепер на Vector Markup Language! &middot; НАТИСНІТЬ НА ШАРИК МИШКОЮ!!!&nbsp;</B></FONT>
+Один файл &mdash; від Netscape 4 до сьогодні &middot; НАТИСНІТЬ НА ШАРИК МИШКОЮ!!!&nbsp;</B></FONT>
 </MARQUEE>
 
 <BR>
@@ -37,7 +46,7 @@ FACE="Impact, Arial Black" SIZE="7" COLOR="#FF6600">G</FONT><FONT
 FACE="Impact, Arial Black" SIZE="7" COLOR="#FFFFFF">!</FONT>
 </SPAN>
 
-<FONT SIZE="2" COLOR="#00FF00"><I>&laquo;Той самий шарик, тепер без жодного пікселя канваса&raquo;</I></FONT>
+<FONT SIZE="2" COLOR="#00FF00"><I>&laquo;Одна 3D-математика, три способи її намалювати&raquo;</I></FONT>
 <BR><BR>
 
 <TABLE BORDER="6" CELLPADDING="8" CELLSPACING="0" BGCOLOR="#101018">
@@ -47,53 +56,58 @@ FACE="Impact, Arial Black" SIZE="7" COLOR="#FFFFFF">!</FONT>
   <TABLE BORDER="2" CELLPADDING="0" CELLSPACING="0" BGCOLOR="#000000">
   <TR><TD>
 
-    <!-- ============ СЦЕНА 640x480 ============ -->
-    <DIV ID="stage"
-         STYLE="position:relative;width:640px;height:480px;overflow:hidden;background-color:#2A2A2E;cursor:default"
-         onmousedown="onDown()" onmousemove="onMove()"
-         onmouseover="window.status='BOING! Клацніть по шарику, щоб підкинути його.'"
-         onmouseout="window.status=''">
-
-      <DIV ID="gridbox" STYLE="position:absolute;left:0px;top:0px;width:640px;height:480px"></DIV>
-
-      <V:OVAL ID="shadow" STYLE="position:absolute;left:0px;top:0px;width:10px;height:10px"
-              FILLCOLOR="#15151A" STROKED="f"></V:OVAL>
-
-      <V:OVAL ID="under" STYLE="position:absolute;left:0px;top:0px;width:10px;height:10px"
-              FILLCOLOR="#5E0A10" STROKED="f"></V:OVAL>
-
-      <DIV ID="ballbox" STYLE="position:absolute;left:0px;top:0px;width:640px;height:480px"></DIV>
-
-      <DIV ID="novml" STYLE="position:absolute;left:40px;top:180px;width:560px;display:none">
-        <FONT FACE="Arial" SIZE="4" COLOR="#FF4040"><B>
-        Ця сторінка малює шарик засобами <NOBR>Vector Markup Language</NOBR>.<BR>
-        Потрібен Microsoft Internet Explorer 5.5 &mdash; 8.<BR>
-        </B></FONT>
-      </DIV>
-
-    </DIV>
-    <!-- ======================================= -->
+  <!-- Сцена. Netscape 4 позиціонує дітей лише всередині LAYER/ILAYER. -->
+  <SCRIPT LANGUAGE="JavaScript">
+  <!--
+  if (document.layers) {
+    document.write('<ILAYER ID="stage" WIDTH=640 HEIGHT=480 BGCOLOR="#2A2A2E">'
+                 + '<SPACER TYPE="block" WIDTH=640 HEIGHT=480></ILAYER>');
+  } else {
+    document.write('<DIV ID="stage" STYLE="position:relative;width:640px;height:480px;'
+                 + 'overflow:hidden;background-color:#2A2A2E;cursor:default"></DIV>');
+  }
+  //-->
+  </SCRIPT>
 
   </TD></TR>
   </TABLE>
 
   <BR>
 
-  <TABLE BORDER="1" CELLPADDING="4" CELLSPACING="0" WIDTH="640" BGCOLOR="#000040">
+  <TABLE BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="640" BGCOLOR="#000040">
   <TR ALIGN="CENTER">
+    <TD><FONT SIZE="1" COLOR="#8080FF">РЕНДЕРЕР</FONT><BR>
+        <FONT SIZE="2" COLOR="#00FF80" FACE="Courier New"><B><SPAN ID="rend">?</SPAN></B></FONT></TD>
     <TD><FONT SIZE="1" COLOR="#8080FF">УДАРІВ</FONT><BR>
-        <FONT SIZE="3" COLOR="#00FF00" FACE="Courier New"><B><SPAN ID="hits">0</SPAN></B></FONT></TD>
+        <FONT SIZE="2" COLOR="#00FF00" FACE="Courier New"><B><SPAN ID="hits">0</SPAN></B></FONT></TD>
     <TD><FONT SIZE="1" COLOR="#8080FF">ПІДКИДАНЬ</FONT><BR>
-        <FONT SIZE="3" COLOR="#FFFF00" FACE="Courier New"><B><SPAN ID="kicks">0</SPAN></B></FONT></TD>
-    <TD><FONT SIZE="1" COLOR="#8080FF">ПОЛІГОНІВ</FONT><BR>
-        <FONT SIZE="3" COLOR="#FF80FF" FACE="Courier New"><B><SPAN ID="poly">0</SPAN></B></FONT></TD>
+        <FONT SIZE="2" COLOR="#FFFF00" FACE="Courier New"><B><SPAN ID="kicks">0</SPAN></B></FONT></TD>
+    <TD><FONT SIZE="1" COLOR="#8080FF">ГРАНЕЙ / ВОКСЕЛІВ</FONT><BR>
+        <FONT SIZE="2" COLOR="#FF80FF" FACE="Courier New"><B><SPAN ID="poly">0</SPAN></B></FONT></TD>
     <TD><FONT SIZE="1" COLOR="#8080FF">КАДР/С</FONT><BR>
-        <FONT SIZE="3" COLOR="#FF8000" FACE="Courier New"><B><SPAN ID="fps">--</SPAN></B></FONT></TD>
+        <FONT SIZE="2" COLOR="#FF8000" FACE="Courier New"><B><SPAN ID="fps">--</SPAN></B></FONT></TD>
+  </TR>
+  </TABLE>
+
+  <TABLE BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="640" BGCOLOR="#000040">
+  <TR ALIGN="CENTER">
+    <TD><FONT SIZE="1" COLOR="#8080FF">СЦЕНА</FONT><BR>
+        <SELECT ID="scn" onchange="setScene(this.value)">
+          <OPTION VALUE="flat" SELECTED>пласка стіна (1984)</OPTION>
+          <OPTION VALUE="room">3D-кімната з підлогою</OPTION>
+        </SELECT></TD>
+    <TD><FONT SIZE="1" COLOR="#8080FF">МАЛЮВАТИ ЧЕРЕЗ</FONT><BR>
+        <SELECT ID="ren" onchange="setRenderer(this.value)">
+          <OPTION VALUE="auto" SELECTED>авто</OPTION>
+          <OPTION VALUE="canvas">Canvas 2D</OPTION>
+          <OPTION VALUE="vml">VML (MSIE 5.5+)</OPTION>
+          <OPTION VALUE="div">DIV-вокселі</OPTION>
+        </SELECT></TD>
     <TD><FONT SIZE="1" COLOR="#8080FF">ДЕТАЛІЗАЦІЯ</FONT><BR>
         <SELECT ID="det" onchange="setDetail(this.value)">
-          <OPTION VALUE="16,8" SELECTED>16 x 8 (як Amiga)</OPTION>
-          <OPTION VALUE="12,6">12 x 6</OPTION>
-          <OPTION VALUE="8,4">8 x 4 (для 486)</OPTION>
+          <OPTION VALUE="16,8,14" SELECTED>16 x 8 (як Amiga)</OPTION>
+          <OPTION VALUE="12,6,11">12 x 6</OPTION>
+          <OPTION VALUE="8,4,8">8 x 4 (для 486)</OPTION>
         </SELECT></TD>
     <TD><FONT SIZE="1" COLOR="#8080FF">КЕРУВАННЯ</FONT><BR>
         <INPUT TYPE="BUTTON" ID="pause" VALUE="ПАУЗА" onclick="togglePause()">
@@ -125,9 +139,7 @@ FACE="Impact, Arial Black" SIZE="7" COLOR="#FFFFFF">!</FONT>
 <TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0">
 <TR>
   <TD><FONT SIZE="2" COLOR="#C0C0C0">Ви відвідувач номер&nbsp;</FONT></TD>
-  <TD BGCOLOR="#000000" STYLE="border:2px inset #808080">
-    <FONT FACE="Courier New" SIZE="4" COLOR="#00FF00"><B><SPAN ID="counter">0000000</SPAN></B></FONT>
-  </TD>
+  <TD BGCOLOR="#000000"><FONT FACE="Courier New" SIZE="4" COLOR="#00FF00"><B><SPAN ID="counter">0000000</SPAN></B></FONT></TD>
   <TD><FONT SIZE="2" COLOR="#C0C0C0">&nbsp;з 1996 року</FONT></TD>
 </TR>
 </TABLE>
@@ -136,75 +148,71 @@ FACE="Impact, Arial Black" SIZE="7" COLOR="#FFFFFF">!</FONT>
 <HR WIDTH="640" SIZE="4" NOSHADE COLOR="#800080">
 
 <FONT SIZE="1" COLOR="#808080">
-Оптимізовано для <B>Microsoft Internet Explorer 5.5</B> при роздільній здатності <B>800x600</B>, 256 кольорів.<BR>
-Графіка: <B>VML</B> (полігони) + <B>DHTML</B> (сітка) &middot; Звук: <B>BGSOUND</B> &middot; Без Java, без Flash, без ActiveX.<BR>
-Зроблено вручну в NOTEPAD.EXE &middot; Загальний розмір: 27 KB &middot; На модемі 28.8k: приблизно 8 секунд<BR>
+Працює в <B>Netscape Navigator 4</B>, <B>MSIE 4</B>, <B>MSIE 5.5-9</B> і будь-якому сучасному браузері.<BR>
+Одна й та сама 3D-математика; різниться лише растеризатор.<BR>
+Зроблено вручну в NOTEPAD.EXE &middot; Без DOCTYPE, бо VML любить quirks mode<BR>
 <BR>
 [ <A HREF="#">ГОСТЬОВА КНИГА</A> ] [ <A HREF="#">МОЇ ПОСИЛАННЯ</A> ] [ <A HREF="#">ЛИСТ ВЕБМАЙСТРУ</A> ]<BR>
 <BR>
-&copy; 1996-1999 &middot; Всі права захищено &middot; Amiga &mdash; торгова марка Commodore
+&copy; 1996-2026 &middot; Amiga &mdash; торгова марка Commodore
 </FONT>
 
 <BR><BR>
 
 </CENTER>
 
-<SCRIPT LANGUAGE="JScript">
+<SCRIPT LANGUAGE="JavaScript">
 <!--
-// ==========================================================================
-//  BOING BALL для Internet Explorer 5.5 - 8
-//  3D-математика на JScript, вивід через VML-полігони.
-//  Жодного CANVAS, жодного WebGL. Так це робили б у 1999-му.
-// ==========================================================================
+// ##########################################################################
+//  БЛОК A -- ядро. Синтаксис JavaScript 1.2: ніяких try/catch, toFixed,
+//  apply, getElementById, appendChild. Цей блок мусить розпарситись у NN4.
+// ##########################################################################
 
-function E(id) { return document.all ? document.all[id] : document.getElementById(id); }
-
-// ---------- реєстрація простору імен VML ---------------------------------
-var hasVML = false;
-if (document.namespaces) {
-  hasVML = true;
-  try { document.namespaces.add("v", "urn:schemas-microsoft-com:vml", "#default#VML"); }
-  catch (e) { }
+function E(id) {
+  if (document.all) { return document.all[id]; }
+  if (document.getElementById) { return document.getElementById(id); }
+  return null;
+}
+function setTxt(id, s) {
+  var el = E(id);
+  if (el && typeof el.innerHTML != "undefined") { el.innerHTML = s; }
 }
 
-// ---------- сцена і камера ----------------------------------------------
+// ---------- камера ------------------------------------------------------
 var W = 640, H = 480, CX = 320, CY = 240;
 var FOV = 50 * Math.PI / 180;
-var K = 240 / Math.tan(FOV / 2);        // масштаб проекції у пікселях
-var CAMZ = 6.0;                         // відстань до центра сцени
-var RAD = 0.9;                          // радіус шарика
-var TILT = -17 * Math.PI / 180;         // нахил осі, як в оригіналі
+var K = 240 / Math.tan(FOV / 2);          // масштаб проекції, пікселів
+var CAMZ = 6.0;                           // відстань до площини шарика
+var RAD = 0.9;                            // радіус шарика
+var TILT = -17 * Math.PI / 180;           // нахил осі, як в оригіналі
+var WALLZ = CAMZ + 6.0;                   // задня стіна 3D-кімнати
 
 var HH = CAMZ * Math.tan(FOV / 2);
 var HW = HH * W / H;
-var XLIM = HW - RAD;
-var YBOT = -HH + RAD;
-var YTOP = HH - RAD;
+var XLIM = HW - RAD, YBOT = -HH + RAD, YTOP = HH - RAD;
+var FLOORY = -HH;                         // площина підлоги
 
-var GRAV = -11.0;
-var MINB = 8.4;                         // мінімальний відскок: стрибає вічно
-var SPINRATE = 2.6;
+var GRAV = -11.0, MINB = 8.4, SPINRATE = 2.6;
+
+var GRIDCOL = "#9E219E", REDCOL = "#D1131C", WHTCOL = "#F2F2F2";
+var DARKCOL = "#5E0A10", SHADCOL = "#15151A", BGCOL = "#2A2A2E";
 
 // ---------- стан --------------------------------------------------------
-var NS = 16, NB = 8;                    // меридіани, паралелі
-var ux = [], uy = [], uz = [];          // одиничні вершини
-var sx = [], sy = [];                   // спроєктовані вершини
-var CULL = 1;                           // напрямок відсікання задніх граней
-
-var bx = -1.5, by = 0.6, vx = 2.4, vy = 0.0;
-var spin = 0, spinDir = 1;
+var NS = 16, NB = 8, VOX = 14;
+var ux = [], uy = [], uz = [], sxx = [], syy = [];
+var CULL = 1;
+var bx = -1.5, by = 0.6, vx = 2.4, vy = 0.0, spin = 0, spinDir = 1;
 var hits = 0, kicks = 0, polys = 0;
-var paused = false, tmr = null, prevTime = 0;
-var fpsAcc = 0, fpsCnt = 0;
-var elBall = null, stUnder = null, stShadow = null;   // кеш, щоб не шукати щокадру
+var room = false;
+var paused = false, tmr = null, prevT = 0, fpsAcc = 0, fpsCnt = 0;
+var R = null, sceneCache = null, stageEl = null;
 
-// ---------- геометрія ---------------------------------------------------
+// ---------- меш ---------------------------------------------------------
 function buildSphere() {
   ux = []; uy = []; uz = [];
   var i, j, t, st, ct, p;
   for (j = 0; j <= NB; j++) {
-    t = j / NB * Math.PI;
-    st = Math.sin(t); ct = Math.cos(t);
+    t = j / NB * Math.PI; st = Math.sin(t); ct = Math.cos(t);
     for (i = 0; i <= NS; i++) {
       p = i / NS * 2 * Math.PI;
       ux[ux.length] = RAD * st * Math.cos(p);
@@ -214,100 +222,125 @@ function buildSphere() {
   }
 }
 
-function buildGrid() {
-  // сітка на стіні -- звичайні DIV'и по 1 пікселю, як робили в 1997-му
-  var s = [], NV = 16, NH = 12, i, v;
-  for (i = 0; i <= NV; i++) {
-    v = Math.round(i * W / NV); if (v > W - 2) { v = W - 2; }
-    s[s.length] = '<div style="position:absolute;left:' + v + 'px;top:0px;width:1px;'
-                + 'height:480px;background-color:#9E219E;overflow:hidden;font-size:0px"></div>';
-  }
-  for (i = 0; i <= NH; i++) {
-    v = Math.round(i * H / NH); if (v > H - 2) { v = H - 2; }
-    s[s.length] = '<div style="position:absolute;left:0px;top:' + v + 'px;width:640px;'
-                + 'height:1px;background-color:#9E219E;overflow:hidden;font-size:0px"></div>';
-  }
-  E("gridbox").innerHTML = s.join("");
-}
+// ---------- проекція: камера в нулі, дивиться вздовж -Z ------------------
+function pjx(X, w) { return CX + K * X / w; }
+function pjy(Y, w) { return CY - K * Y / w; }
 
-// ---------- проекція ----------------------------------------------------
-function project() {
+function projectMesh() {
   var cs = Math.cos(spin), ss = Math.sin(spin);
   var ct = Math.cos(TILT), st = Math.sin(TILT);
   var n = ux.length, k, x, y, z, x1, z1, x2, y2, q;
   for (k = 0; k < n; k++) {
     x = ux[k]; y = uy[k]; z = uz[k];
-    x1 = x * cs + z * ss;               // обертання навколо осі Y
+    x1 = x * cs + z * ss;                 // обертання навколо власної осі
     z1 = z * cs - x * ss;
-    x2 = x1 * ct - y * st;              // нахил осі навколо Z
+    x2 = x1 * ct - y * st;                // нахил осі
     y2 = x1 * st + y * ct;
-    q = K / (CAMZ - z1);                // перспектива
-    sx[k] = Math.round(CX + (x2 + bx) * q);
-    sy[k] = Math.round(CY - (y2 + by) * q);
+    q = K / (CAMZ - z1);                  // перспектива
+    sxx[k] = CX + (x2 + bx) * q;
+    syy[k] = CY - (y2 + by) * q;
   }
 }
 
-// ---------- збірка VML --------------------------------------------------
-function shapeTag(path, color) {
-  return '<v:shape style="position:absolute;left:0px;top:0px;width:640px;height:480px" '
-       + 'coordsize="640,480" coordorigin="0,0" filled="t" fillcolor="' + color + '" '
-       + 'stroked="f" path="' + path + '"></v:shape>';
-}
-
-function drawBall() {
-  var red = [], wht = [], NS1 = NS + 1;
-  var i, j, a, b, c, d, ax, ay, bx2, by2, cx2, cy2, dx2, dy2, area, s;
-  var pass, kept = 0;
-
+// Групи полігонів за кольором; задні грані відсікаються за знаком площі.
+function meshGroups() {
+  var red = [], wht = [], NS1 = NS + 1, kept = 0, pass;
+  var i, j, a, b, c, d, ax, ay, bX, bY, cX, cY, dX, dY, area;
   for (pass = 0; pass < 2; pass++) {
     red.length = 0; wht.length = 0; kept = 0;
     for (j = 0; j < NB; j++) {
       for (i = 0; i < NS; i++) {
         a = j * NS1 + i; b = a + 1; d = a + NS1; c = d + 1;
-        ax = sx[a]; ay = sy[a];
-        bx2 = sx[b]; by2 = sy[b];
-        cx2 = sx[c]; cy2 = sy[c];
-        dx2 = sx[d]; dy2 = sy[d];
-        // подвійна площа многокутника на екрані: знак = напрямок обходу
-        area = (ax * by2 - bx2 * ay) + (bx2 * cy2 - cx2 * by2)
-             + (cx2 * dy2 - dx2 * cy2) + (dx2 * ay - ax * dy2);
-        if (area * CULL >= 0) { continue; }   // задня півкуля -- пропускаємо
+        ax = sxx[a]; ay = syy[a]; bX = sxx[b]; bY = syy[b];
+        cX = sxx[c]; cY = syy[c]; dX = sxx[d]; dY = syy[d];
+        area = (ax * bY - bX * ay) + (bX * cY - cX * bY)
+             + (cX * dY - dX * cY) + (dX * ay - ax * dY);
+        if (area * CULL >= 0) { continue; }
         kept++;
-        s = "m " + ax + "," + ay + " l " + bx2 + "," + by2 + ","
-          + cx2 + "," + cy2 + "," + dx2 + "," + dy2 + " x ";
-        if (((i + j) % 2) === 0) { red[red.length] = s; } else { wht[wht.length] = s; }
+        if (((i + j) % 2) === 0) { red[red.length] = [ax, ay, bX, bY, cX, cY, dX, dY]; }
+        else { wht[wht.length] = [ax, ay, bX, bY, cX, cY, dX, dY]; }
       }
     }
-    // страховка: якщо відсікли все -- значить знак обходу протилежний
     if (kept > 0) { break; }
-    CULL = -CULL;
+    CULL = -CULL;                         // страховка: інший напрямок обходу
   }
   polys = kept;
-
-  // всі червоні клітинки -- один VML-полігон з підшляхами, білі -- другий.
-  // Два елементи на кадр замість сотні: саме це робить демку живою в IE.
-  var html = "";
-  if (red.length > 0) { html += shapeTag(red.join("") + "e", "#D1131C"); }
-  if (wht.length > 0) { html += shapeTag(wht.join("") + "e", "#F2F2F2"); }
-  elBall.innerHTML = html;
-
-  // тінь і темна підкладка -- по одному овалу, лише переміщуємо
-  var q = K / CAMZ, r = Math.round(RAD * q);
-  stUnder.pixelLeft = Math.round(CX + bx * q) - r;
-  stUnder.pixelTop = Math.round(CY - by * q) - r;
-
-  var qs = K / (CAMZ + 0.7), rs = Math.round(RAD * qs);
-  stShadow.pixelLeft = Math.round(CX + (bx + 0.42) * qs) - rs;
-  stShadow.pixelTop = Math.round(CY - (by - 0.30) * qs) - rs;
+  return [{ c: REDCOL, p: red }, { c: WHTCOL, p: wht }];
 }
 
-function sizeOvals() {
-  var q = K / CAMZ, d = 2 * Math.round(RAD * q);
-  var u = E("under").style;
-  u.pixelWidth = d; u.pixelHeight = d;
-  var qs = K / (CAMZ + 0.7), ds = 2 * Math.round(RAD * qs);
-  var sh = E("shadow").style;
-  sh.pixelWidth = ds; sh.pixelHeight = ds;
+// ---------- силует і тінь -----------------------------------------------
+function ballRadiusPx() {                 // видимий радіус сфери (дотична)
+  return K * RAD / Math.sqrt(CAMZ * CAMZ - RAD * RAD);
+}
+function circlePoly(cx, cy, rx, ry) {
+  var pts = [], n = 16, i, a;
+  for (i = 0; i < n; i++) {
+    a = i / n * 2 * Math.PI;
+    pts[pts.length] = cx + rx * Math.cos(a);
+    pts[pts.length] = cy + ry * Math.sin(a);
+  }
+  return pts;
+}
+// Темна підкладка: ховає волосяні щілини між гранями.
+function discInfo() {
+  var q = K / CAMZ, r = RAD * q * 0.97;
+  var cx = CX + bx * q, cy = CY - by * q;
+  return { cx: cx, cy: cy, rx: r, ry: r, poly: circlePoly(cx, cy, r, r) };
+}
+function shadowInfo() {
+  var i, a, rr, hn, q, px, py, w, pts;
+  if (!room) {
+    q = K / (CAMZ + 0.7);                 // зсунутий силует на тій же стіні
+    return { cx: CX + (bx + 0.42) * q, cy: CY - (by - 0.30) * q,
+             rx: RAD * q, ry: RAD * q,
+             poly: circlePoly(CX + (bx + 0.42) * q, CY - (by - 0.30) * q,
+                              RAD * q, RAD * q) };
+  }
+  // 3D-кімната: коло на площині підлоги, спроєктоване в перспективі
+  hn = (by - YBOT) / (YTOP - YBOT);
+  rr = RAD * (1.0 - 0.32 * hn);
+  pts = [];
+  var minx = 999999, maxx = -999999, miny = 999999, maxy = -999999;
+  for (i = 0; i < 16; i++) {
+    a = i / 16 * 2 * Math.PI;
+    w = CAMZ - rr * Math.sin(a);
+    px = pjx(bx + rr * Math.cos(a), w);
+    py = pjy(FLOORY, w);
+    pts[pts.length] = px; pts[pts.length] = py;
+    if (px < minx) { minx = px; }
+    if (px > maxx) { maxx = px; }
+    if (py < miny) { miny = py; }
+    if (py > maxy) { maxy = py; }
+  }
+  return { cx: (minx + maxx) / 2, cy: (miny + maxy) / 2,
+           rx: (maxx - minx) / 2, ry: (maxy - miny) / 2, poly: pts };
+}
+
+// ---------- задній план: список відрізків [x1,y1,x2,y2] -----------------
+function sceneLines() {
+  var L = [], i, v, x, y, horizon;
+  if (!room) {
+    for (i = 0; i <= 16; i++) { v = i * W / 16; L[L.length] = [v, 0, v, H]; }
+    for (i = 0; i <= 12; i++) { v = i * H / 12; L[L.length] = [0, v, W, v]; }
+    return L;
+  }
+  horizon = pjy(FLOORY, WALLZ);           // де підлога сходиться зі стіною
+  for (i = -7; i <= 7; i++) {             // вертикалі задньої стіни
+    x = pjx(i, WALLZ);
+    L[L.length] = [x, 0, x, horizon];
+  }
+  for (i = 0; i <= 6; i++) {              // горизонталі задньої стіни
+    y = pjy(FLOORY + i * 1.4, WALLZ);
+    L[L.length] = [0, y, W, y];
+  }
+  for (i = 0; i <= 6; i++) {              // поперечні лінії підлоги
+    y = pjy(FLOORY, CAMZ + i);
+    L[L.length] = [0, y, W, y];
+  }
+  for (i = -5; i <= 5; i++) {             // лінії в глибину: єдині діагональні
+    L[L.length] = [pjx(i, CAMZ), pjy(FLOORY, CAMZ), pjx(i, WALLZ), horizon];
+  }
+  return L;
 }
 
 // ---------- фізика ------------------------------------------------------
@@ -315,107 +348,233 @@ function step(dt) {
   vy += GRAV * dt;
   bx += vx * dt;
   by += vy * dt;
-
   if (bx < -XLIM) { bx = -XLIM; vx = Math.abs(vx); spinDir = -spinDir; bump(); }
   else if (bx > XLIM) { bx = XLIM; vx = -Math.abs(vx); spinDir = -spinDir; bump(); }
-
   if (by < YBOT) {
     by = YBOT;
     vy = Math.abs(vy) * 0.99;
     if (vy < MINB) { vy = MINB; }
     bump();
   } else if (by > YTOP) {
-    by = YTOP;
-    vy = -Math.abs(vy) * 0.85;
-    bump();
+    by = YTOP; vy = -Math.abs(vy) * 0.85; bump();
   }
-
   spin += SPINRATE * spinDir * dt;
 }
+function bump() { hits++; boing(); }
 
-function bump() {
-  hits++;
-  boing();
+// ##########################################################################
+//  Рендерер 3: DIV-вокселі. Працює всюди, де є хоч якесь позиціонування:
+//  MSIE 4 (innerHTML), Netscape 4 (new Layer), сучасні браузери.
+//  Полігонів тут немає: для кожної клітинки кидається промінь у сферу,
+//  зворотним обертанням шукається клітинка шахівниці. Теж справжнє 3D.
+// ##########################################################################
+var divR = {
+  nm: "DIV-вокселі",
+  wantMesh: false,
+  lay: false, stage: null, box: null,
+  cells: [], prev: [], shp: [], side: 0, grid: 0,
+
+  setup: function (stage) {
+    this.lay = (document.layers && !document.all) ? true : false;
+    this.stage = this.lay ? document.layers["stage"] : stage;
+    this.cells = []; this.prev = []; this.shp = []; this.box = null;
+    this.grid = VOX;
+    this.side = Math.ceil(2 * ballRadiusPx() / this.grid);
+  },
+
+  // Порядок створення = порядок накладання: спершу фон, потім тінь, потім шарик
+  drawScene: function (lines) {
+    if (this.lay) { this.buildNN(lines); } else { this.buildDOM(lines); }
+  },
+
+  // один відрізок -> осьові прямокутники (діагоналі йдуть щаблями)
+  rects: function (out, s) {
+    var x1 = s[0], y1 = s[1], x2 = s[2], y2 = s[3], k, steps, ax, ay, bxx, byy;
+    if (Math.abs(x1 - x2) < 1.5 || Math.abs(y1 - y2) < 1.5) {
+      out[out.length] = [Math.round(Math.min(x1, x2)), Math.round(Math.min(y1, y2)),
+                         Math.max(1, Math.round(Math.abs(x2 - x1))),
+                         Math.max(1, Math.round(Math.abs(y2 - y1)))];
+      return;
+    }
+    steps = 8;
+    for (k = 0; k < steps; k++) {
+      ax = x1 + (x2 - x1) * k / steps;
+      ay = y1 + (y2 - y1) * k / steps;
+      bxx = x1 + (x2 - x1) * (k + 1) / steps;
+      byy = y1 + (y2 - y1) * (k + 1) / steps;
+      out[out.length] = [Math.round(Math.min(ax, bxx)), Math.round(Math.min(ay, byy)),
+                         Math.max(1, Math.round(Math.abs(bxx - ax))),
+                         Math.max(1, Math.round(Math.abs(byy - ay)))];
+    }
+  },
+
+  buildDOM: function (lines) {
+    var s = [], rc = [], i, n, gx, gy, size = this.side * this.grid;
+    for (i = 0; i < lines.length; i++) { this.rects(rc, lines[i]); }
+    for (i = 0; i < rc.length; i++) {
+      s[s.length] = '<div style="position:absolute;left:' + rc[i][0] + 'px;top:' + rc[i][1]
+                  + 'px;width:' + rc[i][2] + 'px;height:' + rc[i][3]
+                  + 'px;overflow:hidden;font-size:0px;background-color:' + GRIDCOL + '"></div>';
+    }
+    for (i = 0; i < 5; i++) {
+      s[s.length] = '<div id="shp' + i + '" style="position:absolute;left:-99px;top:-99px;'
+                  + 'width:4px;height:4px;overflow:hidden;font-size:0px;'
+                  + 'background-color:' + SHADCOL + '"></div>';
+    }
+    s[s.length] = '<div id="vbox" style="position:absolute;left:0px;top:0px;width:' + size
+                + 'px;height:' + size + 'px;overflow:hidden;font-size:0px">';
+    for (gy = 0; gy < this.grid; gy++) {
+      for (gx = 0; gx < this.grid; gx++) {
+        s[s.length] = '<div style="position:absolute;left:' + (gx * this.side) + 'px;top:'
+                    + (gy * this.side) + 'px;width:' + this.side + 'px;height:' + this.side
+                    + 'px;overflow:hidden;font-size:0px"></div>';
+      }
+    }
+    s[s.length] = '</div>';
+    this.stage.innerHTML = s.join("");
+    this.box = E("vbox");
+    var kids = this.box.children ? this.box.children : this.box.childNodes;
+    for (n = 0; n < this.grid * this.grid; n++) { this.cells[n] = kids[n]; this.prev[n] = ""; }
+    for (i = 0; i < 5; i++) { this.shp[i] = E("shp" + i); }
+  },
+
+  buildNN: function (lines) {
+    var rc = [], i, n, gx, gy, o, size = this.side * this.grid, P = this.stage;
+    for (i = 0; i < lines.length; i++) { this.rects(rc, lines[i]); }
+    for (i = 0; i < rc.length; i++) {
+      o = new Layer(rc[i][2], P);
+      o.resizeTo(rc[i][2], rc[i][3]);
+      o.moveTo(rc[i][0], rc[i][1]);
+      o.bgColor = GRIDCOL; o.visibility = "show";
+    }
+    for (i = 0; i < 5; i++) {
+      o = new Layer(4, P);
+      o.resizeTo(4, 4); o.moveTo(-99, -99);
+      o.bgColor = SHADCOL; o.visibility = "show";
+      this.shp[i] = o;
+    }
+    this.box = new Layer(size, P);
+    this.box.resizeTo(size, size);
+    this.box.moveTo(0, 0);
+    this.box.visibility = "show";
+    n = 0;
+    for (gy = 0; gy < this.grid; gy++) {
+      for (gx = 0; gx < this.grid; gx++) {
+        o = new Layer(this.side, this.box);
+        o.resizeTo(this.side, this.side);
+        o.moveTo(gx * this.side, gy * this.side);
+        o.visibility = "show";
+        this.cells[n] = o; this.prev[n] = ""; n++;
+      }
+    }
+  },
+
+  place: function (o, x, y, w, h) {
+    if (this.lay) {
+      o.moveTo(x, y);
+      if (w) { o.resizeTo(w, h); }
+      return;
+    }
+    o.style.left = x + "px"; o.style.top = y + "px";
+    if (w) { o.style.width = w + "px"; o.style.height = h + "px"; }
+  },
+
+  frame: function () {
+    var q = K / CAMZ;
+    var size = this.side * this.grid;
+    var L = Math.round(CX + bx * q - size / 2);
+    var T = Math.round(CY - by * q - size / 2);
+    this.place(this.box, L, T);
+
+    // тінь: коло прямокутниками не намалюєш, але п'ять смуг дають блоб
+    var sh = shadowInfo(), i, fy, hw, bh = (2 * sh.ry) / 5;
+    for (i = 0; i < 5; i++) {
+      fy = -1 + (2 * i + 1) / 5;
+      hw = sh.rx * Math.sqrt(Math.max(0, 1 - fy * fy));
+      this.place(this.shp[i],
+                 Math.round(sh.cx - hw), Math.round(sh.cy + fy * sh.ry - bh / 2),
+                 Math.max(1, Math.round(2 * hw)), Math.max(1, Math.round(bh)));
+    }
+
+    // рейкастинг: інверсія тих самих обертань, що й у меша
+    var ict = Math.cos(-TILT), ist = Math.sin(-TILT);
+    var ics = Math.cos(-spin), iss = Math.sin(-spin);
+    var ccz = -CAMZ, RR = RAD * RAD, half = this.side / 2;
+    var Cq = bx * bx + by * by + ccz * ccz - RR;
+    var gx, gy, n = 0, px, py, dx, dy, A, B, disc, tt, lx, ly, lz;
+    var axx, ayy, b2, z2, th, ph, ii, jj, col, cnt = 0;
+    for (gy = 0; gy < this.grid; gy++) {
+      py = T + gy * this.side + half;
+      dy = -(py - CY) / K;
+      for (gx = 0; gx < this.grid; gx++, n++) {
+        px = L + gx * this.side + half;
+        dx = (px - CX) / K;
+        A = dx * dx + dy * dy + 1;
+        B = -2 * (dx * bx + dy * by - ccz);
+        disc = B * B - 4 * A * Cq;
+        if (disc < 0) { col = ""; }
+        else {
+          tt = (-B - Math.sqrt(disc)) / (2 * A);
+          lx = tt * dx - bx; ly = tt * dy - by; lz = -tt - ccz;
+          axx = lx * ict - ly * ist; ayy = lx * ist + ly * ict;
+          b2 = axx * ics + lz * iss; z2 = lz * ics - axx * iss;
+          th = ayy / RAD;
+          if (th > 1) { th = 1; }
+          if (th < -1) { th = -1; }
+          th = Math.acos(th);
+          ph = Math.atan2(z2, b2);
+          if (ph < 0) { ph += 2 * Math.PI; }
+          jj = Math.floor(th / Math.PI * NB); if (jj >= NB) { jj = NB - 1; }
+          ii = Math.floor(ph / (2 * Math.PI) * NS); if (ii >= NS) { ii = NS - 1; }
+          col = ((ii + jj) % 2) === 0 ? REDCOL : WHTCOL;
+          cnt++;
+        }
+        if (col != this.prev[n]) {         // пишемо лише те, що змінилось
+          this.prev[n] = col;
+          if (col === "") {
+            if (this.lay) { this.cells[n].bgColor = null; }
+            else { this.cells[n].style.backgroundColor = "transparent"; }
+          } else if (this.lay) { this.cells[n].bgColor = col; }
+          else { this.cells[n].style.backgroundColor = col; }
+        }
+      }
+    }
+    polys = cnt;
+  }
+};
+
+// ---------- звук --------------------------------------------------------
+var sndOn = true, sndIdx = 0, lastSnd = 0, waFn = null;
+
+function toggleSound() {
+  sndOn = !sndOn;
+  var el = E("snd");
+  if (el) { el.value = sndOn ? "ЗВУК: УВІМК" : "ЗВУК: ВИКЛ"; }
 }
-
-// ---------- головний цикл -----------------------------------------------
-function tick() {
+function boing() {
+  if (!sndOn) { return; }
   var now = new Date().getTime();
-  var dt = (now - prevTime) / 1000;
-  prevTime = now;
-  if (dt > 0.12) { dt = 0.12; }         // IE любить зависати на секунду
-  if (dt <= 0) { dt = 0.001; }
-
-  step(dt);
-  project();
-  drawBall();
-
-  fpsAcc += dt; fpsCnt++;
-  if (fpsAcc >= 0.5) {
-    E("fps").innerHTML = Math.round(fpsCnt / fpsAcc);
-    E("hits").innerHTML = hits;
-    E("kicks").innerHTML = kicks;
-    E("poly").innerHTML = polys;
-    fpsAcc = 0; fpsCnt = 0;
+  if (now - lastSnd < 90) { return; }
+  lastSnd = now;
+  if (waFn) { waFn(); return; }                     // сучасні: Web Audio
+  var b = E("snd" + sndIdx);
+  if (b && typeof b.src != "undefined") {           // MSIE: BGSOUND
+    b.src = "boing.wav"; sndIdx = (sndIdx + 1) % 3; return;
+  }
+  if (document.embeds && document.embeds.length && document.embeds[0].play) {
+    document.embeds[0].play(false);                 // NN4: LiveAudio
   }
 }
 
-function togglePause() {
-  paused = !paused;
-  E("pause").value = paused ? "ПУСК" : "ПАУЗА";
-  if (paused) {
-    window.clearInterval(tmr); tmr = null;
-  } else {
-    prevTime = new Date().getTime();
-    tmr = window.setInterval(tick, 25);
-  }
-}
-
-function setDetail(v) {
-  var p = v.split(",");
-  NS = parseInt(p[0], 10);
-  NB = parseInt(p[1], 10);
-  buildSphere();
-}
-
-// ---------- мишка -------------------------------------------------------
-function stageOffset() {
-  var el = E("stage"), x = 0, y = 0;
-  while (el) { x += el.offsetLeft; y += el.offsetTop; el = el.offsetParent; }
-  return { x: x, y: y };
-}
-
-function mousePos() {
-  var e = window.event, o = stageOffset();
-  var sl = document.body.scrollLeft, stp = document.body.scrollTop;
-  if (document.documentElement) {
-    sl = sl || document.documentElement.scrollLeft;
-    stp = stp || document.documentElement.scrollTop;
-  }
-  return { x: e.clientX + sl - o.x, y: e.clientY + stp - o.y };
-}
-
-function ballHit(m) {
-  var q = K / CAMZ;
-  var cx = CX + bx * q, cy = CY - by * q, r = RAD * q;
-  var dx = m.x - cx, dy = m.y - cy;
+// ---------- мишка: спільна логіка ---------------------------------------
+function hitTest(mx, my) {
+  var q = K / CAMZ, r = ballRadiusPx();
+  var dx = mx - (CX + bx * q), dy = my - (CY - by * q);
   return { hit: (dx * dx + dy * dy) <= r * r, dx: dx / r, dy: dy / r };
 }
-
-var handOn = false;
-function onMove() {
-  var t = ballHit(mousePos());
-  if (t.hit !== handOn) {
-    handOn = t.hit;
-    E("stage").style.cursor = handOn ? "hand" : "default";
-  }
-}
-
-function onDown() {
-  var t = ballHit(mousePos());
+function kick(mx, my) {
+  var t = hitTest(mx, my);
   if (!t.hit) { return; }
-
-  // удар знизу підкидає вище, удар збоку штовхає в протилежний бік
   vy = MINB + 3.0 * (t.dy > 0 ? t.dy : 0) + 1.5;
   vx += -t.dx * 3.2;
   if (vx > 4.5) { vx = 4.5; }
@@ -424,63 +583,341 @@ function onDown() {
   if (vx < 1.2 && vx >= 0) { vx = 1.2; }
   if (t.dx > 0.45) { spinDir = -1; }
   else if (t.dx < -0.45) { spinDir = 1; }
-
   kicks++;
   boing();
 }
 
-// ---------- звук: три BGSOUND по колу, бо один не встигає перезапуститись
-var sndOn = true, sndIdx = 0, lastSnd = 0;
-
-function toggleSound() {
-  sndOn = !sndOn;
-  E("snd").value = sndOn ? "ЗВУК: УВІМК" : "ЗВУК: ВИКЛ";
-}
-
-function boing() {
-  if (!sndOn) { return; }
+// ---------- головний цикл -----------------------------------------------
+function tick() {
   var now = new Date().getTime();
-  if (now - lastSnd < 90) { return; }   // не тарахтіти на дрібних відскоках
-  lastSnd = now;
-  try {
-    E("snd" + sndIdx).src = "boing.wav";
-    sndIdx = (sndIdx + 1) % 3;
-  } catch (e) { }
+  var dt = (now - prevT) / 1000;
+  prevT = now;
+  if (dt > 0.12) { dt = 0.12; }
+  if (dt <= 0) { dt = 0.001; }
+
+  step(dt);
+  if (R.wantMesh) {
+    projectMesh();
+    R.frame(meshGroups(), shadowInfo(), discInfo());
+  } else {
+    R.frame();
+  }
+
+  fpsAcc += dt; fpsCnt++;
+  if (fpsAcc >= 0.5) {
+    setTxt("fps", "" + Math.round(fpsCnt / fpsAcc));
+    setTxt("hits", "" + hits);
+    setTxt("kicks", "" + kicks);
+    setTxt("poly", "" + polys);
+    fpsAcc = 0; fpsCnt = 0;
+  }
+}
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+// ##########################################################################
+//  БЛОК B -- растеризатори Canvas 2D і VML. Netscape 4 цей блок або
+//  проігнорує, або не розпарсить: блок A від цього не страждає.
+// ##########################################################################
+
+var canR = {
+  nm: "Canvas 2D",
+  wantMesh: true,
+  cv: null, ctx: null, lines: null,
+
+  setup: function (stage) {
+    stage.innerHTML = "";
+    this.cv = document.createElement("canvas");
+    this.cv.width = W; this.cv.height = H;
+    this.cv.style.display = "block";
+    stage.appendChild(this.cv);
+    this.ctx = this.cv.getContext("2d");
+  },
+  drawScene: function (lines) { this.lines = lines; },
+
+  fillPolys: function (list, color) {
+    var g = this.ctx, i, p, k;
+    g.beginPath();
+    for (i = 0; i < list.length; i++) {
+      p = list[i];
+      g.moveTo(p[0], p[1]);
+      for (k = 2; k < p.length; k += 2) { g.lineTo(p[k], p[k + 1]); }
+      g.closePath();
+    }
+    g.fillStyle = color;
+    g.fill();
+  },
+
+  frame: function (groups, shadow, disc) {
+    var g = this.ctx, i, L = this.lines;
+    g.fillStyle = BGCOL;
+    g.fillRect(0, 0, W, H);
+
+    g.save();
+    g.translate(0.5, 0.5);                 // щоб лінії лягали на піксель
+    g.strokeStyle = GRIDCOL;
+    g.lineWidth = 1;
+    g.beginPath();
+    for (i = 0; i < L.length; i++) {
+      g.moveTo(Math.round(L[i][0]), Math.round(L[i][1]));
+      g.lineTo(Math.round(L[i][2]), Math.round(L[i][3]));
+    }
+    g.stroke();
+    g.restore();
+
+    this.fillPolys([shadow.poly], SHADCOL);
+    this.fillPolys([disc.poly], DARKCOL);
+    for (i = 0; i < groups.length; i++) {
+      if (groups[i].p.length) { this.fillPolys(groups[i].p, groups[i].c); }
+    }
+  }
+};
+
+var vmlR = {
+  nm: "VML",
+  wantMesh: true,
+  grid: null, ball: null,
+
+  setup: function (stage) {
+    if (document.namespaces) {
+      try { document.namespaces.add("v", "urn:schemas-microsoft-com:vml", "#default#VML"); }
+      catch (e) { }
+    }
+    stage.innerHTML =
+      '<div id="vgrid" style="position:absolute;left:0px;top:0px;width:640px;height:480px"></div>'
+    + '<div id="vball" style="position:absolute;left:0px;top:0px;width:640px;height:480px"></div>';
+    this.grid = E("vgrid");
+    this.ball = E("vball");
+  },
+
+  shape: function (path, fill, stroke) {
+    var s = '<v:shape style="position:absolute;left:0px;top:0px;width:640px;height:480px" '
+          + 'coordsize="640,480" coordorigin="0,0" ';
+    s += fill ? ('filled="t" fillcolor="' + fill + '" ') : 'filled="f" ';
+    s += stroke ? ('stroked="t" strokecolor="' + stroke + '" strokeweight="1px" ')
+                : 'stroked="f" ';
+    return s + 'path="' + path + '"></v:shape>';
+  },
+
+  // увесь задній план -- один VML-шлях з відкритими підшляхами
+  drawScene: function (lines) {
+    var s = [], i, L;
+    for (i = 0; i < lines.length; i++) {
+      L = lines[i];
+      s[s.length] = "m " + Math.round(L[0]) + "," + Math.round(L[1])
+                  + " l " + Math.round(L[2]) + "," + Math.round(L[3]) + " ";
+    }
+    this.grid.innerHTML = this.shape(s.join("") + "e", null, GRIDCOL);
+  },
+
+  polyPath: function (list) {
+    var s = [], i, p, k;
+    for (i = 0; i < list.length; i++) {
+      p = list[i];
+      s[s.length] = "m " + Math.round(p[0]) + "," + Math.round(p[1]) + " l ";
+      for (k = 2; k < p.length; k += 2) {
+        s[s.length] = Math.round(p[k]) + "," + Math.round(p[k + 1])
+                    + (k + 2 < p.length ? "," : "");
+      }
+      s[s.length] = " x ";
+    }
+    return s.join("") + "e";
+  },
+
+  // чотири елементи на кадр: тінь, підкладка, червоні клітинки, білі
+  frame: function (groups, shadow, disc) {
+    var h = this.shape(this.polyPath([shadow.poly]), SHADCOL, null)
+          + this.shape(this.polyPath([disc.poly]), DARKCOL, null);
+    var i;
+    for (i = 0; i < groups.length; i++) {
+      if (groups[i].p.length) {
+        h += this.shape(this.polyPath(groups[i].p), groups[i].c, null);
+      }
+    }
+    this.ball.innerHTML = h;
+  }
+};
+
+// ---------- Web Audio: той самий "boing", синтезований на льоту ----------
+(function () {
+  var AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) { return; }
+  var ac = null, nb = null;
+  waFn = function () {
+    if (!ac) {
+      ac = new AC();
+      var n = Math.floor(ac.sampleRate * 0.09), i;
+      nb = ac.createBuffer(1, n, ac.sampleRate);
+      var d = nb.getChannelData(0);
+      for (i = 0; i < n; i++) { d[i] = (Math.random() * 2 - 1) * (1 - i / n); }
+    }
+    if (ac.state === "suspended") { ac.resume(); }
+    if (ac.state !== "running") { return; }
+    var t = ac.currentTime;
+    var out = ac.createGain(); out.gain.value = 0.45; out.connect(ac.destination);
+    var o = ac.createOscillator(); o.type = "sine";
+    o.frequency.setValueAtTime(330, t);
+    o.frequency.exponentialRampToValueAtTime(70, t + 0.24);
+    var g = ac.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.9, t + 0.008);
+    g.gain.exponentialRampToValueAtTime(0.0008, t + 0.32);
+    o.connect(g); g.connect(out); o.start(t); o.stop(t + 0.35);
+    var o2 = ac.createOscillator(); o2.type = "triangle";
+    o2.frequency.setValueAtTime(760, t);
+    o2.frequency.exponentialRampToValueAtTime(240, t + 0.10);
+    var g2 = ac.createGain();
+    g2.gain.setValueAtTime(0.32, t);
+    g2.gain.exponentialRampToValueAtTime(0.0006, t + 0.14);
+    o2.connect(g2); g2.connect(out); o2.start(t); o2.stop(t + 0.15);
+    var s = ac.createBufferSource(); s.buffer = nb;
+    var bp = ac.createBiquadFilter(); bp.type = "bandpass";
+    bp.frequency.value = 1100; bp.Q.value = 1.1;
+    var g3 = ac.createGain(); g3.gain.value = 0.28;
+    s.connect(bp); bp.connect(g3); g3.connect(out); s.start(t);
+  };
+})();
+//-->
+</SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+// ##########################################################################
+//  БЛОК C -- вибір растеризатора і запуск. Знову JS 1.2-safe.
+// ##########################################################################
+
+var forced = "auto", useRaf = false;
+
+function haveCanvas() {
+  if (!document.createElement) { return false; }
+  var c = document.createElement("canvas");
+  return (c && c.getContext) ? true : false;
 }
 
-// ---------- дрібнички в стилі 90-х --------------------------------------
-function chrome() {
-  var n = 1024000 + Math.floor(Math.random() * 74000);
-  var s = "" + n;
-  while (s.length < 7) { s = "0" + s; }
-  E("counter").innerHTML = s;
+function pickRenderer() {
+  if (forced === "div") { return divR; }
+  if (forced === "canvas" && typeof canR != "undefined" && haveCanvas()) { return canR; }
+  if (forced === "vml" && typeof vmlR != "undefined" && document.namespaces) { return vmlR; }
+  if (typeof canR != "undefined" && haveCanvas()) { return canR; }
+  if (typeof vmlR != "undefined" && document.namespaces) { return vmlR; }
+  return divR;
+}
 
+function mount() {
+  R = pickRenderer();
+  if (stageEl && typeof stageEl.innerHTML != "undefined") { stageEl.innerHTML = ""; }
+  R.setup(stageEl);
+  sceneCache = sceneLines();
+  R.drawScene(sceneCache);
+  setTxt("rend", R.nm);
+}
+
+function setRenderer(v) {
+  if (!stageEl) { return; }                 // Netscape 4: перемикання немає
+  forced = v;
+  mount();
+}
+function setScene(v) {
+  room = (v === "room");
+  if (!stageEl) { return; }
+  mount();
+}
+function setDetail(v) {
+  var p = ("" + v).split(",");
+  NS = parseInt(p[0], 10);
+  NB = parseInt(p[1], 10);
+  VOX = parseInt(p[2], 10);
+  buildSphere();
+  if (stageEl) { mount(); }
+}
+
+function loop() {
+  if (paused) { return; }
+  tick();
+  window.requestAnimationFrame(loop);
+}
+function startLoop() {
+  prevT = new Date().getTime();
+  if (useRaf) { loop(); } else { tmr = setInterval(tick, 16); }
+}
+function togglePause() {
+  paused = !paused;
+  var el = E("pause");
+  if (el) { el.value = paused ? "ПУСК" : "ПАУЗА"; }
+  if (paused) {
+    if (tmr) { clearInterval(tmr); tmr = null; }
+  } else { startLoop(); }
+}
+
+// ---------- мишка -------------------------------------------------------
+function absPos(el) {
+  var x = 0, y = 0;
+  while (el) { x += el.offsetLeft; y += el.offsetTop; el = el.offsetParent; }
+  return { x: x, y: y };
+}
+function localXY(e) {
+  var o = absPos(stageEl), sl = 0, st = 0;
+  if (document.body) { sl = document.body.scrollLeft; st = document.body.scrollTop; }
+  if (document.documentElement) {
+    sl = sl || document.documentElement.scrollLeft;
+    st = st || document.documentElement.scrollTop;
+  }
+  return { x: e.clientX + sl - o.x, y: e.clientY + st - o.y };
+}
+function onDownDOM(ev) {
+  var e = ev ? ev : window.event, m = localXY(e);
+  kick(m.x, m.y);
+}
+function onMoveDOM(ev) {
+  var e = ev ? ev : window.event, m = localXY(e);
+  stageEl.style.cursor = hitTest(m.x, m.y).hit ? "pointer" : "default";
+}
+function onDownNN(e) {
+  var L = document.layers["stage"];
+  kick(e.pageX - L.pageX, e.pageY - L.pageY);
+  return true;
+}
+
+// ---------- дрібнички 90-х ----------------------------------------------
+function chrome() {
+  var n = 1024000 + Math.floor(Math.random() * 74000), s = "" + n;
+  while (s.length < 7) { s = "0" + s; }
+  setTxt("counter", s);
   var on = true;
-  window.setInterval(function () {
+  setInterval(function () {
     on = !on;
-    E("blinker").style.visibility = on ? "visible" : "hidden";
+    var b = E("blinker");
+    if (b && b.style) { b.style.visibility = on ? "visible" : "hidden"; }
   }, 550);
 }
 
-// ---------- старт -------------------------------------------------------
 function boot() {
   chrome();
-  if (!hasVML) {
-    E("novml").style.display = "block";
-    E("fps").innerHTML = "n/a";
-    return;
+  if (document.layers) {
+    document.captureEvents(Event.MOUSEDOWN);
+    document.onmousedown = onDownNN;
+  } else {
+    stageEl = E("stage");
   }
-  buildGrid();
+  useRaf = window.requestAnimationFrame ? true : false;
   buildSphere();
-  elBall = E("ballbox");
-  stUnder = E("under").style;
-  stShadow = E("shadow").style;
-  sizeOvals();
-  prevTime = new Date().getTime();
-  tmr = window.setInterval(tick, 25);
+  mount();
+  if (stageEl) {
+    if (stageEl.addEventListener) {
+      stageEl.addEventListener("mousedown", onDownDOM, false);
+      stageEl.addEventListener("mousemove", onMoveDOM, false);
+    } else if (stageEl.attachEvent) {
+      stageEl.attachEvent("onmousedown", onDownDOM);
+      stageEl.attachEvent("onmousemove", onMoveDOM);
+    }
+  }
+  startLoop();
 }
 
-if (window.attachEvent) { window.attachEvent("onload", boot); }
+if (window.addEventListener) { window.addEventListener("load", boot, false); }
+else if (window.attachEvent) { window.attachEvent("onload", boot); }
 else { window.onload = boot; }
 //-->
 </SCRIPT>
