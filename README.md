@@ -9,3 +9,7 @@
 ```
 
 Inspired by the iconic Amiga Boing Ball demo shown in 1984, this project explores how a similar animated scene can be recreated across different generations of web technology. It begins with a modern WebGL implementation and will later be adapted using increasingly archaic rendering techniques, with the goal of running in early browsers such as Internet Explorer.
+
+## Live demo
+
+https://bloschinsky.github.io/bouncig-ball-legacy/
