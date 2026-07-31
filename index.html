@@ -124,6 +124,11 @@ FACE="Impact, Arial Black" SIZE="7" COLOR="#FFFFFF">!</FONT>
   </TR>
   </TABLE>
 
+  <TABLE ID="t3" BORDER="1" CELLPADDING="2" CELLSPACING="0" WIDTH="640" BGCOLOR="#101030">
+  <TR><TD ALIGN="CENTER"><FONT SIZE="1" COLOR="#7070C0" FACE="Courier New">
+      <SPAN ID="diag">&nbsp;</SPAN></FONT></TD></TR>
+  </TABLE>
+
   <BR>
   <FONT SIZE="2" COLOR="#FFFF00">
   &raquo; Клацніть <B>по самому шарику</B>, щоб підкинути його.
@@ -696,6 +701,28 @@ var canR = {
   }
 };
 
+// Справжня перевірка VML. document.namespaces є в кожному IE5+ незалежно
+// від того, чи встановлена й зареєстрована VGX.DLL, яка власне і малює.
+// Тому перевіряємо не простір імен, а те, чи поведінка реально приліпилась:
+// у живого VML-об'єкта властивість adj стає об'єктом.
+var vmlProbe = null;
+function haveVML() {
+  if (vmlProbe !== null) { return vmlProbe; }
+  vmlProbe = false;
+  if (!document.namespaces || !document.createElement) { return vmlProbe; }
+  try { document.namespaces.add("v", "urn:schemas-microsoft-com:vml", "#default#VML"); }
+  catch (e) { }
+  var d = document.createElement("div"), s;
+  try {
+    d.innerHTML = '<v:shape adj="1"></v:shape>';
+    s = d.firstChild;
+    if (!s) { return vmlProbe; }
+    s.style.behavior = "url(#default#VML)";
+    vmlProbe = (typeof s.adj == "object");
+  } catch (e2) { vmlProbe = false; }
+  return vmlProbe;
+}
+
 var vmlR = {
   nm: "VML",
   wantMesh: true,
@@ -809,21 +836,57 @@ var vmlR = {
 //  БЛОК C -- вибір растеризатора і запуск. Знову JS 1.2-safe.
 // ##########################################################################
 
-var forced = "auto", useRaf = false;
+var forced = "auto", useRaf = false, pickNote = "";
 
 function haveCanvas() {
   if (!document.createElement) { return false; }
   var c = document.createElement("canvas");
-  return (c && c.getContext) ? true : false;
+  if (!c || !c.getContext) { return false; }
+  return c.getContext("2d") ? true : false;
+}
+function okCanvas() { return (typeof canR != "undefined") && haveCanvas(); }
+function okVml() {
+  return (typeof vmlR != "undefined") && (typeof haveVML != "undefined") && haveVML();
 }
 
 function pickRenderer() {
+  var can = okCanvas(), vml = okVml();
+  pickNote = "";
   if (forced === "div") { return divR; }
-  if (forced === "canvas" && typeof canR != "undefined" && haveCanvas()) { return canR; }
-  if (forced === "vml" && typeof vmlR != "undefined" && document.namespaces) { return vmlR; }
-  if (typeof canR != "undefined" && haveCanvas()) { return canR; }
-  if (typeof vmlR != "undefined" && document.namespaces) { return vmlR; }
+  if (forced === "canvas") {
+    if (can) { return canR; }
+    pickNote = "Canvas 2D тут немає";
+  }
+  if (forced === "vml") {
+    if (vml) { return vmlR; }
+    pickNote = document.namespaces ? "VML не малює: немає VGX.DLL" : "VML тут немає";
+  }
+  if (can) { return canR; }
+  if (vml) { return vmlR; }
+  if (forced === "auto" && !can && !vml) { pickNote = "ні Canvas, ні VML"; }
   return divR;
+}
+
+// Рядок діагностики: видно, що саме браузер умів, а що ні.
+function probeInfo() {
+  var s = "canvas:" + (okCanvas() ? "є" : "нема");
+  s += " &middot; namespaces:" + (document.namespaces ? "є" : "нема");
+  s += " &middot; VGX/VML:" + (okVml() ? "є" : "нема");
+  s += " &middot; DIV:є";
+  if (pickNote) { s += " &nbsp;&mdash;&nbsp; " + pickNote; }
+  return s;
+}
+
+// Позначаємо в меню те, чого на цій машині немає
+function labelOptions() {
+  var sel = E("ren"), i, o, t;
+  if (!sel || !sel.options) { return; }
+  for (i = 0; i < sel.options.length; i++) {
+    o = sel.options[i];
+    t = "" + o.value;
+    if (t === "canvas" && !okCanvas()) { o.text = "Canvas 2D (недоступно)"; }
+    if (t === "vml" && !okVml()) { o.text = "VML (недоступно)"; }
+  }
 }
 
 function mount() {
@@ -833,6 +896,7 @@ function mount() {
   sceneCache = sceneLines();
   R.drawScene(sceneCache);
   setTxt("rend", R.nm);
+  setTxt("diag", probeInfo());
 }
 
 function setRenderer(v) {
@@ -861,6 +925,7 @@ function syncChrome() {
   el = E("mq"); if (el) { el.width = tw; }
   el = E("t1"); if (el) { el.width = tw; }
   el = E("t2"); if (el) { el.width = tw; }
+  el = E("t3"); if (el) { el.width = tw; }
   el = E("hr1"); if (el) { el.width = tw; }
   el = E("bar"); if (el && el.style) { el.style.width = tw + "px"; }
 }
@@ -946,6 +1011,7 @@ function boot() {
   useRaf = window.requestAnimationFrame ? true : false;
   buildSphere();
   syncChrome();
+  labelOptions();
   mount();
   if (stageEl) {
     if (stageEl.addEventListener) {
