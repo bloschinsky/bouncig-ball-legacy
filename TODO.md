@@ -43,19 +43,19 @@ boing.wav
 
 - [ ] Record a baseline: screenshots of both scenes and all three renderers,
   initial diagnostic values, and a manual smoke-test checklist.
-- [ ] Extract CSS to `css/legacy.css` without changing selectors, the cascade,
+- [x] Extract CSS to `css/legacy.css` without changing selectors, the cascade,
   quirks mode, VML behavior, or visual geometry.
-- [ ] Extract the early Netscape audio insertion to a separate synchronous
+- [x] Extract the early Netscape audio insertion to a separate synchronous
   script that still runs while the HTML document is being parsed.
-- [ ] Extract the JavaScript 1.2 core and DIV/Layer renderer to `js/core.js`.
+- [x] Extract the JavaScript 1.2 core and DIV/Layer renderer to `js/core.js`.
   Do not add syntax unsupported by the target parser.
-- [ ] Extract Canvas, VML, and Web Audio to `js/renderers.js`. Keep this file as
+- [x] Extract Canvas, VML, and Web Audio to `js/renderers.js`. Keep this file as
   an independent failure boundary: a parse error in an old browser must not
   break the core or the following startup block.
-- [ ] Extract feature detection, UI handling, and startup to the JavaScript
+- [x] Extract feature detection, UI handling, and startup to the JavaScript
   1.2-compatible `js/app.js`. Preserve the loading order `core.js` →
   `renderers.js` → `app.js`.
-- [ ] Keep the runtime HTML as one complete document. If authoring with markup
+- [x] Keep the runtime HTML as one complete document. If authoring with markup
   fragments becomes necessary, add only a build-time assembly step that creates
   a deterministic `index.html`. Do not use runtime `fetch`, modules, custom
   elements, or another client-side component loader.

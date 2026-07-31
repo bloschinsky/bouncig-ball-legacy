@@ -27,7 +27,8 @@ https://bloschinsky.github.io/bouncig-ball-legacy/
 ## Current state
 
 - The project has no dependencies, build step, server, or framework.
-- All markup, CSS, and JavaScript currently live in `index.html`.
+- The runtime is dependency-free. Markup remains in `index.html`; CSS and
+  JavaScript are split into static files loaded in legacy-safe order.
 - `boing.wav` supports legacy audio APIs. Modern browsers synthesize the sound
   through Web Audio.
 - The demo provides a flat 1984 scene and a perspective 3D room.
@@ -67,21 +68,21 @@ Page controls:
 Netscape 4 has a limited DOM. Renderer and viewport switching are intentionally
 disabled there, and the stage is created while the document is being parsed.
 
-## How `index.html` is organized
+## Runtime file order
 
 The section order is critical:
 
-1. `<head>` defines IE5 mode, UTF-8, the VML namespace and behavior, and the
-   minimal CSS.
-2. An early script inserts Netscape LiveAudio with `document.write` while the
-   document is being parsed.
+1. `<head>` defines IE5 mode, UTF-8, the VML namespace, and loads
+   `css/legacy.css` with the VML behavior and base CSS.
+2. `js/parse-audio.js` inserts Netscape LiveAudio with `document.write` while
+   the document is being parsed.
 3. The markup creates the UI and stage container. Netscape receives an
    `ILAYER`; other browsers receive a positioned `DIV`.
-4. The core block contains JavaScript 1.2-compatible math, physics, geometry,
+4. `js/core.js` contains JavaScript 1.2-compatible math, physics, geometry,
    controls, and the DIV/Layer renderer.
-5. A separate capability block contains Canvas, VML, and Web Audio. An old
-   parser may reject this whole block without breaking the core.
-6. The final JavaScript 1.2-compatible block selects a renderer, mounts the
+5. `js/renderers.js` contains Canvas, VML, and Web Audio. An old parser may
+   reject this whole file without breaking the core or startup files.
+6. `js/app.js` is JavaScript 1.2-compatible and selects a renderer, mounts the
    scene, and starts the loop.
 
 All renderers use the same physics and projection state. Canvas and VML receive
@@ -116,9 +117,15 @@ improvement ideas are tracked in [TODO.md](TODO.md).
 ## Files
 
 ```text
-index.html   — application and complete current implementation
-boing.wav    — legacy impact sound
-README.md    — project context, startup, and architecture constraints
-TODO.md      — bugs, verification tasks, and decomposition plan
-AGENTS.md    — concise rules for future work on the project
+index.html           — flat runtime document and script loading order
+css/legacy.css       — legacy CSS and VML behavior
+js/parse-audio.js    — synchronous Netscape LiveAudio insertion
+js/core.js           — JavaScript 1.2 core and DIV/Layer renderer
+js/renderers.js      — Canvas, VML, and Web Audio capability block
+js/app.js            — JavaScript 1.2 detection, UI, boot, and loop
+boing.wav            — legacy impact sound
+TESTING.md            — manual browser checklist and result matrix
+README.md             — project context and architecture constraints
+TODO.md               — bugs, verification tasks, and decomposition plan
+AGENTS.md              — concise rules for future work on the project
 ```
